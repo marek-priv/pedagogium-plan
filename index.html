@@ -28,6 +28,8 @@
     color: var(--ink);
     line-height: 1.45;
     padding: 24px 16px 64px;
+    /* overflow-x: clip prevents page-level horizontal scroll without breaking position:sticky (unlike hidden) */
+    overflow-x: clip;
   }
   .wrap { max-width: 1560px; margin: 0 auto; }
 
@@ -231,10 +233,70 @@
 
   footer { margin-top: 26px; text-align: center; font-size: 11px; color: var(--ink-faint); }
 
-  @media (max-width: 720px) {
+  /* ================= RESPONSIVE ================= */
+  /* medium screens: 2-column notes */
+  @media (max-width: 1100px) {
+    .notes { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
     body { padding: 12px 8px 48px; }
     .hero { padding: 20px 18px; }
+    .hero-meta { gap: 6px; }
+    .chip { font-size: 11.5px; padding: 4px 10px; }
     .zjazdy { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); }
+
+    /* matrix: keep columns wide enough to stay legible, scroll horizontally */
+    table.matrix { min-width: 880px; }
+    .matrix thead th { min-width: 92px; font-size: 10px; padding: 8px 4px; }
+    .matrix thead th.time-col { min-width: 92px; padding-left: 10px; }
+    .matrix tbody th { font-size: 11px; padding: 6px 10px; }
+    .matrix td { padding: 4px; height: 66px; }
+    .cls { padding: 5px 7px; }
+    .cls .t { font-size: 10.5px; }
+
+    /* single-column notes */
+    .notes { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    /* segment-controller tabs: compact labels, one row */
+    .tabs { gap: 4px; padding: 5px; margin: 14px 0 10px; }
+    .tab-btn { flex: 1 1 0; padding: 9px 4px; font-size: 12px; gap: 5px; white-space: nowrap; }
+    .tab-btn .tl { display: none; }
+
+    .hero h1 { font-size: 17px; }
+    .hero .sub { font-size: 12.5px; }
+    .zjazdy { grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); }
+    .zjazd-card .zd { font-size: 12.5px; }
+
+    table.matrix { min-width: 780px; }
+    .matrix thead th { min-width: 82px; }
+
+    /* Zaliczenia: transform table into stacked cards */
+    .table-scroll.zal-scroll { border: none; box-shadow: none; background: transparent; border-radius: 0; overflow-x: visible; }
+    table.zal-table { min-width: 0; display: block; }
+    .zal-table thead { display: none; }
+    .zal-table tbody { display: block; }
+    .zal-table tbody tr {
+      display: block; background: var(--card);
+      border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 12px 14px; margin-bottom: 10px;
+    }
+    .zal-table td { display: block; border: none; padding: 2px 0; height: auto; }
+    .zal-table .num-col { display: none; }
+    .zal-table .hrs-col { white-space: normal; }
+    .zal-table td.c-subj { margin-bottom: 6px; }
+    .zal-table td.c-form, .zal-table td.c-hrs { display: inline-block; }
+    .zal-table td.c-form { margin-right: 8px; }
+    .zal-table td.c-lect::before, .zal-table td.c-zal::before {
+      content: attr(data-label);
+      display: block; font-size: 9px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .6px;
+      color: var(--ink-faint); margin: 6px 0 2px;
+    }
+    .zal-table td.c-lect, .zal-table td.c-zal { padding-top: 2px; }
   }
   /* print shows both sections; titles hidden on screen */
   .panel h2.panel-title { display: none; }
@@ -332,10 +394,10 @@
   <!-- ================= TABS ================= -->
   <nav class="tabs" role="tablist" aria-label="Dzień zajęć">
     <button class="tab-btn active" role="tab" aria-selected="true" data-panel="sobota">
-      <span class="dot" style="background:#38bdf8"></span> Sobota · zajęcia online
+      <span class="dot" style="background:#38bdf8"></span> Sobota <span class="tl">· zajęcia online</span>
     </button>
     <button class="tab-btn" role="tab" aria-selected="false" data-panel="niedziela">
-      <span class="dot" style="background:#4ade80"></span> Niedziela · zajęcia stacjonarne
+      <span class="dot" style="background:#4ade80"></span> Niedziela <span class="tl">· zajęcia stacjonarne</span>
     </button>
     <button class="tab-btn" role="tab" aria-selected="false" data-panel="zaliczenia">
       <span class="dot" style="background:#a78bfa"></span> Zaliczenia
@@ -363,7 +425,7 @@
   <!-- ================= ZALICZENIA ================= -->
   <section class="panel zaliczenia-section" id="panel-zaliczenia" role="tabpanel">
     <h2 class="panel-title">Zaliczenia — formy zaliczenia przedmiotów</h2>
-    <div class="table-scroll">
+    <div class="table-scroll zal-scroll">
       <table class="matrix zal-table" id="tbl-zaliczenia"></table>
     </div>
   </section>
@@ -569,11 +631,11 @@ function buildZaliczenia() {
   const rows = SUBJECTS.map((s, i) => `
     <tr>
       <td class="num-col">${i + 1}</td>
-      <td><div class="subj ${s.cls}">${esc(s.name)}</div></td>
-      <td><span class="fchip ${FORM_CLASS[s.form]}">${FORM_LABEL[s.form]}</span></td>
-      <td class="hrs-col">${s.hrs} · ${s.ects}</td>
-      <td><span class="lect">${esc(s.lect)}</span></td>
-      <td>${s.zal === "praca"
+      <td class="c-subj"><div class="subj ${s.cls}">${esc(s.name)}</div></td>
+      <td class="c-form"><span class="fchip ${FORM_CLASS[s.form]}">${FORM_LABEL[s.form]}</span></td>
+      <td class="hrs-col c-hrs">${s.hrs} · ${s.ects}</td>
+      <td class="c-lect" data-label="Prowadzący"><span class="lect">${esc(s.lect)}</span></td>
+      <td class="c-zal" data-label="Forma zaliczenia">${s.zal === "praca"
         ? `<span class="zchip zchip-praca">${esc(s.zalText)}</span>`
         : `<span class="zchip zchip-tba">Do ustalenia</span>`}</td>
     </tr>`).join("");
