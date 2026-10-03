@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan zajęć — Pedagogika II st., sem. III (Tok B)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f6fa;
+    --card: #ffffff;
+    --ink: #1a2333;
+    --ink-soft: #5b6577;
+    --ink-faint: #8a93a5;
+    --line: #e3e8f0;
+    --navy: #1f3864;
+    --navy-soft: #2c4a82;
+    --accent: #f59e0b;
+    --radius: 14px;
+    --shadow: 0 1px 3px rgba(20,30,60,.08), 0 8px 24px rgba(20,30,60,.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.45;
+    padding: 24px 16px 64px;
+  }
+  .wrap { max-width: 1560px; margin: 0 auto; }
+
+  /* ---------- header ---------- */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 60%, #3d5a96 100%);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+  }
+  .hero h1 { font-size: clamp(19px, 2.4vw, 27px); font-weight: 800; letter-spacing: .2px; }
+  .hero .sub { margin-top: 6px; font-size: 14px; color: #c9d6ef; font-weight: 500; }
+  .hero-meta {
+    margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .chip {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12px; font-weight: 600; color: #e6edf9;
+    white-space: nowrap;
+  }
+  .chip b { color: #ffd27a; font-weight: 700; }
+
+  /* ---------- zjazd strip ---------- */
+  .zjazdy {
+    margin-top: 18px; display: grid; gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  }
+  .zjazd-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 8px 10px; text-align: center; box-shadow: 0 1px 2px rgba(20,30,60,.04);
+  }
+  .zjazd-card .zn { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--ink-faint); }
+  .zjazd-card .zd { font-size: 14px; font-weight: 700; color: var(--ink); margin-top: 1px; }
+  .zjazd-card .zdays { font-size: 10.5px; color: var(--ink-soft); margin-top: 2px; }
+  .zjazd-card.sesja { border-style: dashed; background: #fdf8ee; }
+  .zjazd-card.sesja .zn { color: #b45309; }
+  .zjazd-card.sesja .zd { color: #b45309; }
+
+  /* ---------- tabs ---------- */
+  .tabs {
+    position: sticky; top: 0; z-index: 40;
+    margin: 22px 0 14px; padding: 6px;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    background: rgba(244,246,250,.92); backdrop-filter: blur(8px);
+    border: 1px solid var(--line); border-radius: 12px;
+  }
+  .tab-btn {
+    flex: 1 1 220px;
+    border: none; cursor: pointer; border-radius: 8px;
+    padding: 10px 14px; font: inherit;
+    font-size: 13.5px; font-weight: 700; letter-spacing: .3px;
+    color: var(--ink-soft); background: transparent;
+    transition: background .15s, color .15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .tab-btn .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .tab-btn:hover { background: #e9edf5; color: var(--ink); }
+  .tab-btn.active { background: var(--navy); color: #fff; box-shadow: 0 2px 8px rgba(31,56,100,.35); }
+  .tab-btn.active .dot { background: var(--accent) !important; }
+
+  /* ---------- matrix ---------- */
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .table-scroll {
+    overflow-x: auto; border-radius: var(--radius);
+    box-shadow: var(--shadow); border: 1px solid var(--line);
+    background: var(--card);
+    -webkit-overflow-scrolling: touch;
+  }
+  table.matrix { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1180px; }
+  .matrix th, .matrix td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+  .matrix tr:last-child td, .matrix tr:last-child th { border-bottom: none; }
+  .matrix th:last-child, .matrix td:last-child { border-right: none; }
+
+  .matrix thead th {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--navy); color: #fff;
+    font-size: 11px; font-weight: 700;
+    padding: 10px 6px; text-align: center; vertical-align: middle;
+    min-width: 118px;
+  }
+  .matrix thead th .zh { display: block; font-size: 11.5px; letter-spacing: .5px; text-transform: uppercase; }
+  .matrix thead th .zd { display: block; margin-top: 2px; font-weight: 600; color: #ffd27a; font-size: 11.5px; }
+  .matrix thead th .zday { display: block; font-weight: 500; color: #b9c6e2; font-size: 9.5px; text-transform: uppercase; letter-spacing: .4px; }
+  .matrix thead th.time-col { min-width: 108px; text-align: left; padding-left: 14px; }
+  .matrix thead th.hl-col { background: #3a5a96; }
+
+  .matrix tbody th {
+    position: sticky; left: 0; z-index: 5;
+    background: #f7f9fc;
+    font-size: 12px; font-weight: 700; color: var(--ink);
+    padding: 8px 12px; text-align: left; white-space: nowrap;
+    box-shadow: 1px 0 0 var(--line);
+  }
+  .matrix tbody tr:nth-child(even) th { background: #fbfcfe; }
+  .matrix tbody tr:nth-child(even) td { background: #fbfcfe; }
+
+  .matrix td {
+    padding: 6px; vertical-align: top; height: 74px;
+    background: var(--card); transition: background .12s;
+  }
+  .matrix td.empty { background: #fafbfd; }
+  .matrix tbody tr:hover td, .matrix tbody tr:hover th { background: #eef3fb; }
+  .matrix td.hl-col { background: #eef3fb; }
+  .matrix tbody tr:hover td.hl-col { background: #e2ebf9; }
+  .matrix td.hl-both { background: #dbe7fa !important; }
+
+  /* ---------- class card ---------- */
+  .cls {
+    border-radius: 8px; padding: 7px 9px; height: 100%;
+    border-left: 4px solid var(--sc, #888);
+    background: var(--scbg, #f4f4f4);
+    display: flex; flex-direction: column; gap: 3px;
+    cursor: default;
+    transition: transform .12s, box-shadow .12s;
+  }
+  .cls:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(20,30,60,.14); }
+  .cls .t {
+    font-size: 11.5px; font-weight: 700; line-height: 1.25; color: var(--ink);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .cls .meta { margin-top: auto; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .fchip {
+    font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+    padding: 1.5px 6px; border-radius: 999px; color: #fff;
+  }
+  .f-wyklad { background: #3b6fd4; }
+  .f-cwiczenia { background: #1d9e6f; }
+  .f-konwersatorium { background: #8b5cf6; }
+  .f-lektorat { background: #e07b39; }
+  .cls .lect { font-size: 10px; color: var(--ink-soft); font-weight: 600; }
+  .cls .hrs { font-size: 9.5px; color: var(--ink-faint); }
+  .cls .star { color: #b45309; font-weight: 800; font-size: 10px; }
+
+  /* subject colors */
+  .s-konw1, .s-konw2 { --sc: #6366f1; --scbg: #eef0fe; }
+  .s-metodyka        { --sc: #059669; --scbg: #e8f7f1; }
+  .s-projektowanie   { --sc: #d97706; --scbg: #fdf3e2; }
+  .s-seminarium      { --sc: #9333ea; --scbg: #f4eafd; }
+  .s-prawne          { --sc: #0e7490; --scbg: #e3f3f7; }
+  .s-diagnoza        { --sc: #e11d48; --scbg: #fcecf0; }
+  .s-pedkorekcyjna   { --sc: #0d9488; --scbg: #e5f6f4; }
+  .s-lektorat        { --sc: #ea580c; --scbg: #fdeee3; }
+
+  /* ---------- legend ---------- */
+  .legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+  .legend .lg { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-soft); font-weight: 600; }
+  .legend .sw { width: 12px; height: 12px; border-radius: 3px; border-left: 3px solid var(--sc); background: var(--scbg); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+
+  /* ---------- footnotes ---------- */
+  .notes {
+    margin-top: 26px; display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .note {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; box-shadow: var(--shadow); font-size: 12.5px; color: var(--ink-soft);
+  }
+  .note h3 {
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--navy); margin-bottom: 8px; display: flex; align-items: center; gap: 7px;
+  }
+  .note h3::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); }
+  .note ul { padding-left: 16px; }
+  .note li { margin-bottom: 4px; }
+  .note b { color: var(--ink); }
+  .mark { color: #b45309; font-weight: 800; }
+
+  footer { margin-top: 26px; text-align: center; font-size: 11px; color: var(--ink-faint); }
+
+  @media (max-width: 720px) {
+    body { padding: 12px 8px 48px; }
+    .hero { padding: 20px 18px; }
+    .zjazdy { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); }
+  }
+  /* print shows both sections; titles hidden on screen */
+  .panel h2.panel-title { display: none; }
+
+  /* ================= PDF / PRINT ================= */
+  @page { size: A4 landscape; margin: 10mm; }
+  @media print {
+    body { background: #fff; padding: 0; font-size: 11px; }
+
+    /* header compressed */
+    .hero { padding: 12px 16px; border-radius: 0; box-shadow: none; }
+    .hero h1 { font-size: 15px; }
+    .hero .sub { font-size: 10.5px; margin-top: 3px; }
+    .hero-meta { margin-top: 7px; gap: 4px; }
+    .chip { padding: 1px 7px; font-size: 8.5px; }
+
+    /* zjazd strip compressed */
+    .zjazdy { margin-top: 8px; gap: 4px; }
+    .zjazd-card { padding: 3px 5px; box-shadow: none; }
+    .zjazd-card .zn { font-size: 8px; }
+    .zjazd-card .zd { font-size: 10.5px; }
+    .zjazd-card .zdays { font-size: 7.5px; }
+
+    /* hide interactive tabs, show both sections */
+    .tabs { display: none; }
+    .panel { display: block !important; }
+    .panel h2.panel-title {
+      display: block; font-size: 12px; font-weight: 800;
+      margin: 10px 0 5px; color: var(--navy);
+      text-transform: uppercase; letter-spacing: .5px;
+    }
+
+    /* niedziela always starts on a fresh page */
+    .niedziela-section, #panel-niedziela {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    /* table fits one landscape page; never split rows across pages */
+    .table-scroll { overflow: visible; border-radius: 0; box-shadow: none; border: none; zoom: 0.82; }
+    table.matrix { min-width: 0; page-break-inside: avoid; break-inside: avoid; }
+    .matrix tr { page-break-inside: avoid; break-inside: avoid; }
+
+    /* no sticky positioning in print */
+    .matrix thead th, .matrix tbody th { position: static; box-shadow: none; }
+
+    /* compressed table typography */
+    .matrix thead th { font-size: 9px; padding: 4px 3px; min-width: 0; }
+    .matrix thead th .zh { font-size: 9px; }
+    .matrix thead th .zd { font-size: 9px; }
+    .matrix thead th .zday { font-size: 8px; }
+    .matrix tbody th { font-size: 9.5px; padding: 3px 7px; }
+    .matrix td { padding: 2px; height: auto; }
+
+    .cls { padding: 3px 5px; border-radius: 5px; gap: 2px; }
+    .cls .t { font-size: 8.5px; -webkit-line-clamp: 2; line-height: 1.2; }
+    .cls .lect { font-size: 7.5px; }
+    .cls .hrs { font-size: 7px; }
+    .fchip { font-size: 7px; padding: 1px 4px; }
+
+    /* legend + notes compressed */
+    .legend { margin-top: 6px; gap: 3px 9px; }
+    .legend .lg { font-size: 8.5px; }
+    .legend .sw { width: 9px; height: 9px; }
+
+    .notes { margin-top: 8px; page-break-inside: avoid; break-inside: avoid; }
+    .note { padding: 7px 11px; font-size: 8.5px; box-shadow: none; line-height: 1.35; }
+    .note h3 { font-size: 8.5px; margin-bottom: 4px; }
+    .note li { margin-bottom: 0; }
+
+    /* keep print colors/shading accurate */
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= HEADER ================= -->
+  <header class="hero">
+    <h1>Plan zajęć — Pedagogika II stopnia, semestr III</h1>
+    <div class="sub">Specjalność: Terapia pedagogiczna i pedagogika opiekuńczo-wychowawcza</div>
+    <div class="hero-meta">
+      <span class="chip">Studia <b>niestacjonarne · tok B</b></span>
+      <span class="chip">Semestr <b>zimowy 2026/2027</b></span>
+      <span class="chip">📍 <b>Pedagogium</b>, ul. Marszałkowska 115</span>
+      <span class="chip">Sesja egzaminacyjna: <b>06–07.02.2027</b></span>
+    </div>
+  </header>
+
+  <!-- ================= ZJAZD CALENDAR ================= -->
+  <section class="zjazdy" id="zjazdStrip" aria-label="Terminarz zjazdów"></section>
+
+  <!-- ================= TABS ================= -->
+  <nav class="tabs" role="tablist" aria-label="Dzień zajęć">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-panel="sobota">
+      <span class="dot" style="background:#38bdf8"></span> Sobota · zajęcia online
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-panel="niedziela">
+      <span class="dot" style="background:#4ade80"></span> Niedziela · zajęcia stacjonarne
+    </button>
+  </nav>
+
+  <!-- ================= SOBOTA ================= -->
+  <section class="panel active" id="panel-sobota" role="tabpanel">
+    <h2 class="panel-title">Sobota — zajęcia w formule online</h2>
+    <div class="table-scroll">
+      <table class="matrix" id="tbl-sobota"></table>
+    </div>
+    <div class="legend" id="legend-sobota"></div>
+  </section>
+
+  <!-- ================= NIEDZIELA ================= -->
+  <section class="panel niedziela-section" id="panel-niedziela" role="tabpanel">
+    <h2 class="panel-title">Niedziela — zajęcia w formule stacjonarnej</h2>
+    <div class="table-scroll">
+      <table class="matrix" id="tbl-niedziela"></table>
+    </div>
+    <div class="legend" id="legend-niedziela"></div>
+  </section>
+
+  <!-- ================= FOOTNOTES ================= -->
+  <section class="notes">
+    <div class="note">
+      <h3>Wymiar zajęć i regulacje</h3>
+      <ul>
+        <li><b>Wymiar zajęć: 210 godz.</b> — pełna realizacja planu (210 godz.).</li>
+        <li>Terminy zjazdów zgodne z <b>Zarządzeniem Rektora nr 03/08/2026</b> z dnia 20.08.2026 r. (tok B).</li>
+        <li><b>Sesja egzaminacyjna:</b> 6–7.02.2027 r.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3><span class="mark">*</span> Zajęcia łączone</h3>
+      <ul>
+        <li><b>Konwersatorium I</b> (konwersatorium) — wspólne z: Pedagogika I st. sem. III i IV, Praca socjalna sem. III i V.</li>
+        <li><b>Konwersatorium II</b> (konwersatorium) — wspólne z: Pedagogika I st. sem. III i IV, Praca socjalna sem. III i V.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3><span class="mark">*</span> Pozostałe godziny do ustalenia z prowadzącym</h3>
+      <ul>
+        <li>Konwersatorium I — <b>2 godz.</b></li>
+        <li>Konwersatorium II — <b>2 godz.</b></li>
+        <li>Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną (wykład) — <b>2 godz.</b></li>
+        <li>Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami (wykład) — <b>10 godz.</b></li>
+        <li>Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych (wykład) — <b>2 godz.</b></li>
+        <li>Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych (ćwiczenia) — <b>2 godz.</b></li>
+        <li>Zaawansowana diagnoza trudności w uczeniu się i rozwoju (wykład) — <b>4 godz.</b></li>
+        <li>Zaawansowana diagnoza trudności w uczeniu się i rozwoju (ćwiczenia) — <b>2 godz.</b></li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ================== DATA ================== */
+const ZJAZDY = [
+  { n: 1, sob: "03.10", ndz: "04.10", range: "03–04.10" },
+  { n: 2, sob: "17.10", ndz: "18.10", range: "17–18.10" },
+  { n: 3, sob: "07.11", ndz: "08.11", range: "07–08.11" },
+  { n: 4, sob: "14.11", ndz: "15.11", range: "14–15.11" },
+  { n: 5, sob: "28.11", ndz: "29.11", range: "28–29.11" },
+  { n: 6, sob: "12.12", ndz: "13.12", range: "12–13.12" },
+  { n: 7, sob: "02.01", ndz: "03.01", range: "02–03.01" },
+  { n: 8, sob: "16.01", ndz: "17.01", range: "16–17.01" },
+  { n: 9, sob: "30.01", ndz: "31.01", range: "30–31.01" },
+];
+const SESJA = "06–07.02.2027";
+
+const SLOTS = [
+  "8.00 – 9.30",
+  "9.45 – 11.15",
+  "11.30 – 13.00",
+  "13.30 – 15.00",
+  "15.15 – 16.45",
+  "17.00 – 18.30",
+  "18.45 – 20.15",
+];
+
+// short display titles keep cells readable; full title in tooltip
+const CLASSES = {
+  sobota: [
+    { slot: 0, title: "Konwersatorium I", full: "Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-konw1", zj: [2,3,4,5,6,7,8,9], star: true },
+    { slot: 1, title: "Konwersatorium II", full: "Konwersatorium II", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-konw2", zj: [2,3,4,5,6,7,8,9], star: true },
+    { slot: 2, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-metodyka", zj: [2,3,4,5], star: true },
+    { slot: 3, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "K. Dudek", cls: "s-projektowanie", zj: [2,3,4,5], star: true },
+    { slot: 3, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr Piotr Kulik", cls: "s-seminarium", zj: [1] },
+    { slot: 4, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr Piotr Kulik", cls: "s-seminarium", zj: [2,3,4,5,6,7,8,9] },
+    { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Czernicki", cls: "s-prawne", zj: [1,2,3,4,5,6,7,8,9] },
+    { slot: 6, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "mgr Agata Gryglak", cls: "s-diagnoza", zj: [3,4,5], star: true },
+    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [1,2,6,8], star: true },
+  ],
+  niedziela: [
+    { slot: 0, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-metodyka", zj: [2,3,4,5,6,7,8,9] },
+    { slot: 1, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-projektowanie", zj: [2,3,4,5,6,7,8,9], star: true },
+    { slot: 2, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Anna Kawelczyk", cls: "s-lektorat", zj: [2,3,4,5,6,7,8,9] },
+    { slot: 3, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [2,3,4,5,6,7,8,9] },
+    { slot: 4, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [2] },
+    { slot: 4, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Anna Kawelczyk", cls: "s-lektorat", zj: [3] },
+    { slot: 4, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Małgorzata Ochnio", cls: "s-diagnoza", zj: [4,5,6,7,8,9], star: true },
+    { slot: 5, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Małgorzata Ochnio", cls: "s-diagnoza", zj: [2,3] },
+    { slot: 6, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-metodyka", zj: [2] },
+    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [3] },
+  ],
+};
+
+const FORM_LABEL = {
+  "wykład": "wykład",
+  "ćwiczenia": "ćwiczenia",
+  "konwersatorium": "konwers.",
+  "lektorat": "lektorat",
+};
+const FORM_CLASS = {
+  "wykład": "f-wyklad",
+  "ćwiczenia": "f-cwiczenia",
+  "konwersatorium": "f-konwersatorium",
+  "lektorat": "f-lektorat",
+};
+
+/* ================== RENDER ================== */
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// zjazd strip
+document.getElementById("zjazdStrip").innerHTML =
+  ZJAZDY.map(z => `
+    <div class="zjazd-card">
+      <div class="zn">Zjazd ${z.n}</div>
+      <div class="zd">${z.range}</div>
+      <div class="zdays">sob ${z.sob} · ndz ${z.ndz}</div>
+    </div>`).join("") +
+  `<div class="zjazd-card sesja">
+      <div class="zn">Sesja</div>
+      <div class="zd">${SESJA}</div>
+      <div class="zdays">egzaminy</div>
+    </div>`;
+
+function buildTable(day, tableId) {
+  const classes = CLASSES[day];
+  // grid[slot][zjazdN] -> class or null
+  const tbl = document.getElementById(tableId);
+  const dayKey = day === "sobota" ? "sob" : "ndz";
+  const dayWord = day === "sobota" ? "sobota" : "niedziela";
+
+  let html = `<thead><tr><th class="time-col">Godzina</th>`;
+  ZJAZDY.forEach((z) => {
+    html += `<th data-col="${z.n}"><span class="zh">Zjazd ${z.n}</span><span class="zd">${z[dayKey]}</span><span class="zday">${dayWord}</span></th>`;
+  });
+  html += `</tr></thead><tbody>`;
+
+  SLOTS.forEach((slot, si) => {
+    html += `<tr><th data-row="${si}">${slot}</th>`;
+    ZJAZDY.forEach((z) => {
+      const hits = classes.filter(c => c.slot === si && c.zj.includes(z.n));
+      if (!hits.length) {
+        html += `<td class="empty" data-col="${z.n}" data-row="${si}"></td>`;
+      } else {
+        html += `<td data-col="${z.n}" data-row="${si}">` + hits.map(c => `
+          <div class="cls ${c.cls}" title="${esc(c.full)} — ${c.form}, ${c.hrs} (${c.ects}) — ${c.lect}${c.star ? " · *" : ""}">
+            <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}</div>
+            <div class="meta">
+              <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>
+              <span class="lect">${esc(c.lect)}</span>
+            </div>
+            <div class="hrs">${c.hrs} · ${c.ects}</div>
+          </div>`).join("") + `</td>`;
+      }
+    });
+    html += `</tr>`;
+  });
+  html += `</tbody>`;
+  tbl.innerHTML = html;
+
+  // column + row hover tracking
+  tbl.querySelectorAll("td").forEach(td => {
+    td.addEventListener("mouseenter", () => {
+      const col = td.dataset.col;
+      tbl.querySelectorAll(`[data-col="${col}"]`).forEach(el => el.classList.add("hl-col"));
+      td.classList.add("hl-both");
+    });
+    td.addEventListener("mouseleave", () => {
+      tbl.querySelectorAll(".hl-col").forEach(el => el.classList.remove("hl-col"));
+      td.classList.remove("hl-both");
+    });
+  });
+}
+
+function buildLegend(day, elId) {
+  const seen = new Map();
+  CLASSES[day].forEach(c => { if (!seen.has(c.cls)) seen.set(c.cls, c.full); });
+  document.getElementById(elId).innerHTML =
+    `<span class="lg" style="font-weight:800;color:var(--ink)">Legenda:</span>` +
+    [...seen.entries()].map(([cls, name]) =>
+      `<span class="lg"><span class="sw ${cls}"></span>${esc(name)}</span>`).join("");
+}
+
+buildTable("sobota", "tbl-sobota");
+buildTable("niedziela", "tbl-niedziela");
+buildLegend("sobota", "legend-sobota");
+buildLegend("niedziela", "legend-niedziela");
+
+/* ================== TABS ================== */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => {
+      b.classList.toggle("active", b === btn);
+      b.setAttribute("aria-selected", b === btn ? "true" : "false");
+    });
+    document.querySelectorAll(".panel").forEach(p =>
+      p.classList.toggle("active", p.id === "panel-" + btn.dataset.panel));
+  });
+});
+</script>
+</body>
+</html>
