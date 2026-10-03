@@ -197,6 +197,7 @@
   .zal-table .subj .forms { display: block; font-weight: 500; font-size: 10px; color: var(--ink-soft); margin-top: 2px; }
   .zal-table .subj .fchip { position: relative; top: -1px; margin-right: 3px; }
   .zal-table .lect { font-weight: 600; font-size: 12px; color: var(--ink); }
+  .zal-table .hrs-col { font-size: 11px; color: var(--ink-faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .zchip {
     display: inline-block; font-size: 11px; font-weight: 700;
     padding: 4px 10px; border-radius: 999px; line-height: 1.3;
@@ -454,15 +455,19 @@ const CLASSES = {
 };
 
 const SUBJECTS = [
-  { name: "Konwersatorium I", lect: "K. Dudek", cls: "s-konw1", forms: ["konwersatorium"], zal: "tba" },
-  { name: "Konwersatorium II", lect: "K. Dudek", cls: "s-konw2", forms: ["konwersatorium"], zal: "tba" },
-  { name: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", lect: "K. Dudek", cls: "s-metodyka", forms: ["wykład", "ćwiczenia"], zal: "tba" },
-  { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", lect: "K. Dudek", cls: "s-projektowanie", forms: ["wykład", "ćwiczenia"], zal: "tba" },
-  { name: "Seminarium dyplomowe", lect: "dr Piotr Kulik", cls: "s-seminarium", forms: ["konwersatorium"], zal: "tba" },
-  { name: "Prawne i systemowe podstawy terapii pedagogicznej", lect: "dr P. Czernicki", cls: "s-prawne", forms: ["wykład"], zal: "praca", zalText: "Praca pisemna — brak szczegółów na temat formy" },
-  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", lect: "mgr Agata Gryglak / mgr Małgorzata Ochnio", cls: "s-diagnoza", forms: ["wykład", "ćwiczenia"], zal: "tba" },
-  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", forms: ["wykład", "ćwiczenia"], zal: "tba" },
-  { name: "Lektorat", lect: "mgr Anna Kawelczyk", cls: "s-lektorat", forms: ["lektorat"], zal: "tba" },
+  { name: "Konwersatorium I", form: "konwersatorium", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-konw1", zal: "tba" },
+  { name: "Konwersatorium II", form: "konwersatorium", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-konw2", zal: "tba" },
+  { name: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · ZzO", lect: "K. Dudek", cls: "s-metodyka", zal: "tba" },
+  { name: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-metodyka", zal: "tba" },
+  { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "K. Dudek", cls: "s-projektowanie", zal: "tba" },
+  { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-projektowanie", zal: "tba" },
+  { name: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz.", ects: "4 ECTS · E", lect: "dr Piotr Kulik", cls: "s-seminarium", zal: "tba" },
+  { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Czernicki", cls: "s-prawne", zal: "praca", zalText: "Praca pisemna — brak szczegółów na temat formy" },
+  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "mgr Agata Gryglak", cls: "s-diagnoza", zal: "tba" },
+  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr Małgorzata Ochnio", cls: "s-diagnoza", zal: "tba" },
+  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zal: "tba" },
+  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zal: "tba" },
+  { name: "Lektorat", form: "lektorat", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr Anna Kawelczyk", cls: "s-lektorat", zal: "tba" },
 ];
 
 const FORM_LABEL = {
@@ -564,10 +569,9 @@ function buildZaliczenia() {
   const rows = SUBJECTS.map((s, i) => `
     <tr>
       <td class="num-col">${i + 1}</td>
-      <td><div class="subj ${s.cls}">${esc(s.name)}
-        <span class="forms">${s.forms.map(f =>
-          `<span class="fchip ${FORM_CLASS[f]}">${FORM_LABEL[f]}</span>`).join("")}</span>
-      </div></td>
+      <td><div class="subj ${s.cls}">${esc(s.name)}</div></td>
+      <td><span class="fchip ${FORM_CLASS[s.form]}">${FORM_LABEL[s.form]}</span></td>
+      <td class="hrs-col">${s.hrs} · ${s.ects}</td>
       <td><span class="lect">${esc(s.lect)}</span></td>
       <td>${s.zal === "praca"
         ? `<span class="zchip zchip-praca">${esc(s.zalText)}</span>`
@@ -577,7 +581,9 @@ function buildZaliczenia() {
     <thead><tr>
       <th class="num-col">#</th>
       <th>Przedmiot</th>
-      <th style="width:210px">Prowadzący</th>
+      <th style="width:100px">Forma</th>
+      <th style="width:120px">Wymiar</th>
+      <th style="width:190px">Prowadzący</th>
       <th style="width:230px">Forma zaliczenia</th>
     </tr></thead><tbody>${rows}</tbody>`;
 }
