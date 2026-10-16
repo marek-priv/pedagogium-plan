@@ -184,12 +184,12 @@
   .cls .hrs { font-size: 9.5px; color: var(--ink-faint); }
   .cls .star { color: #b45309; font-weight: 800; font-size: 10px; }
 
-  /* cells holding several subjects: stack cards, row grows so each
-     card keeps its title line; hours/ECTS stay on the hover tooltip */
-  .matrix td.multi { display: flex; flex-direction: column; gap: 5px; height: auto; }
-  .matrix td.multi .cls { flex: 1 0 auto; height: auto; }
-  .matrix td.multi .cls .t { -webkit-line-clamp: 2; }
-  .matrix td.multi .cls .hrs { display: none; }
+  /* cells holding several subjects: cards stack in an inner flex wrapper
+     (td must stay a table-cell or the grid collapses), row grows so each
+     card keeps its title; hours/ECTS stay on the hover tooltip */
+  .matrix td .stack { display: flex; flex-direction: column; gap: 5px; height: 100%; }
+  .matrix td .stack .cls { flex: 1 0 auto; height: auto; }
+  .matrix td .stack .cls .hrs { display: none; }
 
   /* subject colors */
   .s-konw1, .s-konw2 { --sc: #6366f1; --scbg: #eef0fe; }
@@ -725,7 +725,7 @@ function buildTable(day, tableId) {
       if (!hits.length) {
         html += `<td class="empty" data-col="${z.n}" data-row="${si}"></td>`;
       } else {
-        html += `<td${hits.length > 1 ? ' class="multi"' : ''} data-col="${z.n}" data-row="${si}">` + hits.map(c => {
+        const cards = hits.map(c => {
           const hrsLabel = [c.hrs, c.ects].filter(Boolean).join(" · ");
           return `
           <div class="cls ${c.cls}${c.past ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}">
@@ -735,7 +735,9 @@ function buildTable(day, tableId) {
               <span class="lect">${esc(c.lect)}</span>
             </div>
             ${hrsLabel ? `<div class="hrs">${hrsLabel}</div>` : ""}
-          </div>`; }).join("") + `</td>`;
+          </div>`; }).join("");
+        html += `<td data-col="${z.n}" data-row="${si}">` +
+          (hits.length > 1 ? `<div class="stack">${cards}</div>` : cards) + `</td>`;
       }
     });
     html += `</tr>`;
