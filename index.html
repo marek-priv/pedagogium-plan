@@ -55,6 +55,12 @@
     white-space: nowrap;
   }
   .chip b { color: #ffd27a; font-weight: 700; }
+  a.chip-link {
+    display: inline-block; text-decoration: none; cursor: pointer;
+    background: rgba(245,158,11,.25); border-color: rgba(255,210,122,.55);
+    color: #ffe1a3;
+  }
+  a.chip-link:hover { background: rgba(245,158,11,.45); color: #fff; }
 
   /* ---------- zjazd strip ---------- */
   .zjazdy {
@@ -179,6 +185,34 @@
   .s-diagnoza        { --sc: #e11d48; --scbg: #fcecf0; }
   .s-pedkorekcyjna   { --sc: #0d9488; --scbg: #e5f6f4; }
   .s-lektorat        { --sc: #ea580c; --scbg: #fdeee3; }
+  .s-socjologia      { --sc: #6366f1; --scbg: #eef0fe; }
+  .s-filozofia       { --sc: #a855f7; --scbg: #f6effc; }
+
+  /* ---------- changelog ---------- */
+  .changes { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+  .chg-group {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .chg-group h3 {
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 7px;
+  }
+  .chg-group h3 .cbadge { display: inline-block; width: 8px; height: 8px; border-radius: 2px; }
+  .chg-group ul { padding-left: 16px; }
+  .chg-group li { margin-bottom: 7px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
+  .chg-group li b { color: var(--ink); }
+  .chg-arrow { color: var(--ink-faint); font-weight: 700; }
+  .chg-del { color: #b91c1c; }
+  .chg-new { color: #047857; font-weight: 600; }
+  .chg-stamp {
+    margin-bottom: 14px; font-size: 12.5px; color: var(--ink-soft);
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .chg-stamp .ver {
+    background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;
+    font-weight: 700; font-size: 11px; padding: 3px 10px; border-radius: 999px;
+  }
 
   /* ---------- zaliczenia table ---------- */
   .zal-table { min-width: 640px; }
@@ -385,6 +419,7 @@
       <span class="chip">Semestr <b>zimowy 2026/2027</b></span>
       <span class="chip">📍 <b>Pedagogium</b>, ul. Marszałkowska 115</span>
       <span class="chip">Sesja egzaminacyjna: <b>06–07.02.2027</b></span>
+      <a class="chip chip-link" href="#panel-zmiany" id="zmianyLink">Zobacz zmiany →</a>
     </div>
   </header>
 
@@ -401,6 +436,9 @@
     </button>
     <button class="tab-btn" role="tab" aria-selected="false" data-panel="zaliczenia">
       <span class="dot" style="background:#a78bfa"></span> Zaliczenia
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-panel="zmiany">
+      <span class="dot" style="background:#f59e0b"></span> Zmiany w planie
     </button>
   </nav>
 
@@ -430,6 +468,70 @@
     </div>
   </section>
 
+  <!-- ================= ZMIANY ================= -->
+  <section class="panel" id="panel-zmiany" role="tabpanel">
+    <h2 class="panel-title">Zmiany w planie</h2>
+    <div class="chg-stamp">
+      <span class="ver">Wersja ujednolicona</span>
+      <span>Aktualizacja: <b>16.10.2026</b> — zestawienie zmian względem wcześniejszej wersji planu (wersja „final”).</span>
+    </div>
+    <div class="changes">
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#b91c1c"></span>Prowadzący — odejścia</h3>
+        <ul>
+          <li><b class="chg-del">K. Dudek</b> — usunięta z planu (prowadziła: Konwersatorium I i II, Metodyka pracy opiekuńczo-wychowawczej — wykład i ćwiczenia, Projektowanie i ewaluacja programów — wykład i ćwiczenia).</li>
+          <li><b class="chg-del">dr P. Czernicki</b> — usunięty (Prawne i systemowe podstawy terapii pedagogicznej — wykład).</li>
+          <li><b class="chg-del">mgr A. Gryglak</b> — usunięta (Zaawansowana diagnoza — wykład; Pedagogika korekcyjna — wykład i ćwiczenia).</li>
+          <li><b class="chg-del">mgr A. Kawelczyk</b> — usunięta (Lektorat).</li>
+        </ul>
+      </div>
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#047857"></span>Nowe nazwy i nowi prowadzący</h3>
+        <ul>
+          <li><b>Konwersatorium I</b> <span class="chg-arrow">→</span> <span class="chg-new">„Socjologia edukacji — Konwersatorium I”</span> — dr hab. I. Białecki.</li>
+          <li><b>Konwersatorium II</b> <span class="chg-arrow">→</span> <span class="chg-new">„Filozoficzno-etyczny wymiar we współczesnym świecie — Konwersatorium II”</span> — ks. dr hab. M. Michalski.</li>
+          <li><b>Seminarium dyplomowe</b> <span class="chg-arrow">→</span> dr hab. M. Gejdos / dr hab. L. Ploch.</li>
+          <li><b>Prawne i systemowe podstawy terapii</b> <span class="chg-arrow">→</span> dr P. Kulik (wcześniej prowadził Seminarium).</li>
+          <li><b>Metodyka pracy opiekuńczo-wychowawczej</b> — wykład <span class="chg-arrow">→</span> dr hab. Z.W. Stelmaszuk; ćwiczenia <span class="chg-arrow">→</span> mgr K. Pachucka.</li>
+          <li><b>Projektowanie i ewaluacja programów</b> — wykład <span class="chg-arrow">→</span> dr E. Młynarczyk-Karabin; ćwiczenia <span class="chg-arrow">→</span> mgr K. Bulak.</li>
+          <li><b>Zaawansowana diagnoza trudności</b> — wykład <span class="chg-arrow">→</span> dr A. Panek.</li>
+          <li><b>Pedagogika korekcyjna</b> — wykład <span class="chg-arrow">→</span> dr A. Strumińska; ćwiczenia <span class="chg-arrow">→</span> mgr D. Dziaduś.</li>
+          <li><b>Lektorat</b> <span class="chg-arrow">→</span> mgr J. Karaszewska.</li>
+        </ul>
+      </div>
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#3b6fd4"></span>Terminy i godziny (sobota)</h3>
+        <ul>
+          <li><b>Metodyka (wykład)</b>: zjazdy 2–5 <span class="chg-arrow">→</span> <b>3, 6, 7, 8, 9</b>.</li>
+          <li><b>Projektowanie (wykład)</b>: zjazdy 2–5 <span class="chg-arrow">→</span> <b>6, 7, 8, 9</b>.</li>
+          <li><b>Seminarium dyplomowe</b>: zjazdy 1–9 <span class="chg-arrow">→</span> <b>tylko 3, 5, 6</b> (15.15–16.45).</li>
+          <li><b>Prawne podstawy (wykład)</b>: zjazdy 1–9 <span class="chg-arrow">→</span> <b>1–8</b> o 17.00 + zjazd 9 o <b>8.00</b>.</li>
+          <li><b>Diagnoza (wykład)</b>: zjazdy 3–5 <span class="chg-arrow">→</span> <b>4, 5</b> (bloki 11.30 / 13.30 / 15.15).</li>
+          <li><b>Pedagogika korekcyjna (wykład)</b>: zjazdy 1, 2, 6, 8 <span class="chg-arrow">→</span> <b>3, 4, 7, 9</b> (nadal 18.45).</li>
+        </ul>
+      </div>
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#3b6fd4"></span>Terminy i godziny (niedziela)</h3>
+        <ul>
+          <li><b>Pierwszy blok zaczyna się o 8.15</b> (wcześniej 8.00).</li>
+          <li><b>Metodyka (ćwiczenia)</b>: zjazdy 2–9 <span class="chg-arrow">→</span> <b>4–9</b> o 8.15 + zjazd 2 o <b>18.45</b>.</li>
+          <li><b>Projektowanie (ćwiczenia)</b>: zjazdy 2–9 <span class="chg-arrow">→</span> <b>4–9</b>.</li>
+          <li><b>Lektorat</b>: zjazdy 2–9 <span class="chg-arrow">→</span> <b>2–7</b> (bloki 11.30 / 13.30).</li>
+          <li><b>Pedagogika korekcyjna (ćwiczenia)</b>: wszystkie zjazdy <span class="chg-arrow">→</span> <b>tylko 8 i 9</b> (bloki 11.30–20.15).</li>
+          <li><b>Diagnoza (ćwiczenia)</b>: zjazdy 2–9 <span class="chg-arrow">→</span> <b>tylko 2, 3</b> (bloki 8.15 / 9.45 / 15.15).</li>
+        </ul>
+      </div>
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#d97706"></span>Lokalizacja i organizacja</h3>
+        <ul>
+          <li>Niedzielne zajęcia stacjonarne odbywają się w <b>sali 11, L.O. nr 17, ul. Elektoralna 5/7</b> (nie w budynku Pedagogium).</li>
+          <li>Usunięto oznaczenia <b>*</b> (zajęcia łączone / godziny do ustalenia) — w nowej wersji planu nie występują.</li>
+          <li>Terminarz zjazdów i sesja egzaminacyjna (06–07.02.2027) <b>bez zmian</b>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= FOOTNOTES ================= -->
   <section class="notes">
     <div class="note">
@@ -441,23 +543,17 @@
       </ul>
     </div>
     <div class="note">
-      <h3><span class="mark">*</span> Zajęcia łączone</h3>
+      <h3>Miejsca zajęć</h3>
       <ul>
-        <li><b>Konwersatorium I</b> (konwersatorium) — wspólne z: Pedagogika I st. sem. III i IV, Praca socjalna sem. III i V.</li>
-        <li><b>Konwersatorium II</b> (konwersatorium) — wspólne z: Pedagogika I st. sem. III i IV, Praca socjalna sem. III i V.</li>
+        <li><b>Sobota:</b> wszystkie zajęcia w formule <b>online</b>.</li>
+        <li><b>Niedziela:</b> zajęcia stacjonarne — <b>sala 11, L.O. nr 17, ul. Elektoralna 5/7</b>.</li>
       </ul>
     </div>
     <div class="note">
-      <h3><span class="mark">*</span> Pozostałe godziny do ustalenia z prowadzącym</h3>
+      <h3>Godziny poza siatką planu</h3>
       <ul>
-        <li>Konwersatorium I — <b>2 godz.</b></li>
-        <li>Konwersatorium II — <b>2 godz.</b></li>
-        <li>Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną (wykład) — <b>2 godz.</b></li>
-        <li>Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami (wykład) — <b>10 godz.</b></li>
-        <li>Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych (wykład) — <b>2 godz.</b></li>
-        <li>Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych (ćwiczenia) — <b>2 godz.</b></li>
-        <li>Zaawansowana diagnoza trudności w uczeniu się i rozwoju (wykład) — <b>4 godz.</b></li>
-        <li>Zaawansowana diagnoza trudności w uczeniu się i rozwoju (ćwiczenia) — <b>2 godz.</b></li>
+        <li>Suma zaplanowanych bloków jest niższa niż pełny wymiar przedmiotu — <b>pozostałe godziny ustala się z prowadzącym</b>.</li>
+        <li>Dotyczy to m.in.: Seminarium dyplomowe (4,5 z 18 godz. w siatce), Pedagogika korekcyjna — wykład (6 z 18), Projektowanie — ćwiczenia (9 z 18), Diagnoza — ćwiczenia (9 z 18).</li>
       </ul>
     </div>
   </section>
@@ -479,57 +575,78 @@ const ZJAZDY = [
 ];
 const SESJA = "06–07.02.2027";
 
-const SLOTS = [
-  "8.00 – 9.30",
-  "9.45 – 11.15",
-  "11.30 – 13.00",
-  "13.30 – 15.00",
-  "15.15 – 16.45",
-  "17.00 – 18.30",
-  "18.45 – 20.15",
-];
+const SLOTS = {
+  sobota: [
+    "8.00 – 9.30",
+    "9.45 – 11.15",
+    "11.30 – 13.00",
+    "13.30 – 15.00",
+    "15.15 – 16.45",
+    "17.00 – 18.30",
+    "18.45 – 20.15",
+  ],
+  niedziela: [
+    "8.15 – 9.30",
+    "9.45 – 11.15",
+    "11.30 – 13.00",
+    "13.30 – 15.00",
+    "15.15 – 16.45",
+    "17.00 – 18.30",
+    "18.45 – 20.15",
+  ],
+};
+const SALA_NDZ = "sala 11, L.O. nr 17, ul. Elektoralna 5/7";
 
 // short display titles keep cells readable; full title in tooltip
 const CLASSES = {
   sobota: [
-    { slot: 0, title: "Konwersatorium I", full: "Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-konw1", zj: [2,3,4,5,6,7,8,9], star: true },
-    { slot: 1, title: "Konwersatorium II", full: "Konwersatorium II", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-konw2", zj: [2,3,4,5,6,7,8,9], star: true },
-    { slot: 2, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-metodyka", zj: [2,3,4,5], star: true },
-    { slot: 3, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "K. Dudek", cls: "s-projektowanie", zj: [2,3,4,5], star: true },
-    { slot: 3, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr Piotr Kulik", cls: "s-seminarium", zj: [1] },
-    { slot: 4, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr Piotr Kulik", cls: "s-seminarium", zj: [2,3,4,5,6,7,8,9] },
-    { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Czernicki", cls: "s-prawne", zj: [1,2,3,4,5,6,7,8,9] },
-    { slot: 6, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "mgr Agata Gryglak", cls: "s-diagnoza", zj: [3,4,5], star: true },
-    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [1,2,6,8], star: true },
+    { slot: 0, title: "Konw. II — Filozofia i etyka", full: "Filozoficzno-etyczny wymiar we współczesnym świecie — Konwersatorium II", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "ks. dr hab. M. Michalski", cls: "s-filozofia", zj: [3,5,6,7] },
+    { slot: 0, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Kulik", cls: "s-prawne", zj: [9] },
+    { slot: 0, title: "Socjologia edukacji — Konw. I", full: "Socjologia edukacji — Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr hab. I. Białecki", cls: "s-socjologia", zj: [8] },
+    { slot: 1, title: "Konw. II — Filozofia i etyka", full: "Filozoficzno-etyczny wymiar we współczesnym świecie — Konwersatorium II", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "ks. dr hab. M. Michalski", cls: "s-filozofia", zj: [3,5,6,7,8] },
+    { slot: 2, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "ZzO", lect: "dr hab. Z.W. Stelmaszuk", cls: "s-metodyka", zj: [3,6,7,8,9] },
+    { slot: 2, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "dr A. Panek", cls: "s-diagnoza", zj: [4,5] },
+    { slot: 3, title: "Socjologia edukacji — Konw. I", full: "Socjologia edukacji — Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr hab. I. Białecki", cls: "s-socjologia", zj: [7,8,9] },
+    { slot: 3, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "dr E. Młynarczyk-Karabin", cls: "s-projektowanie", zj: [6,7,8,9] },
+    { slot: 3, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "dr A. Panek", cls: "s-diagnoza", zj: [4,5] },
+    { slot: 4, title: "Socjologia edukacji — Konw. I", full: "Socjologia edukacji — Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr hab. I. Białecki", cls: "s-socjologia", zj: [7,8,9] },
+    { slot: 4, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr hab. M. Gejdos · dr hab. L. Ploch", cls: "s-seminarium", zj: [3,5,6] },
+    { slot: 4, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "dr A. Panek", cls: "s-diagnoza", zj: [4] },
+    { slot: 5, title: "Socjologia edukacji — Konw. I", full: "Socjologia edukacji — Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr hab. I. Białecki", cls: "s-socjologia", zj: [6,8,9] },
+    { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Kulik", cls: "s-prawne", zj: [1,2,3,4,5,6,7,8] },
+    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "dr A. Strumińska", cls: "s-pedkorekcyjna", zj: [3,4,7,9] },
   ],
   niedziela: [
-    { slot: 0, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-metodyka", zj: [2,3,4,5,6,7,8,9] },
-    { slot: 1, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-projektowanie", zj: [2,3,4,5,6,7,8,9], star: true },
-    { slot: 2, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Anna Kawelczyk", cls: "s-lektorat", zj: [2,3,4,5,6,7,8,9] },
-    { slot: 3, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [2,3,4,5,6,7,8,9] },
-    { slot: 4, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [2] },
-    { slot: 4, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Anna Kawelczyk", cls: "s-lektorat", zj: [3] },
-    { slot: 4, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Małgorzata Ochnio", cls: "s-diagnoza", zj: [4,5,6,7,8,9], star: true },
-    { slot: 5, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Małgorzata Ochnio", cls: "s-diagnoza", zj: [2,3] },
-    { slot: 6, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "K. Dudek", cls: "s-metodyka", zj: [2] },
-    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [3] },
+    { slot: 0, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
+    { slot: 0, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Pachucka", cls: "s-metodyka", zj: [4,5,6,7,8,9] },
+    { slot: 1, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
+    { slot: 1, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Bulak", cls: "s-projektowanie", zj: [4,5,6,7,8,9] },
+    { slot: 2, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4,5,6,7] },
+    { slot: 2, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
+    { slot: 3, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4] },
+    { slot: 3, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
+    { slot: 4, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
+    { slot: 4, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
+    { slot: 5, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
+    { slot: 6, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Pachucka", cls: "s-metodyka", zj: [2] },
+    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
   ],
 };
 
 const SUBJECTS = [
-  { name: "Konwersatorium I", form: "konwersatorium", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-konw1", zal: "tba" },
-  { name: "Konwersatorium II", form: "konwersatorium", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-konw2", zal: "tba" },
-  { name: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · ZzO", lect: "K. Dudek", cls: "s-metodyka", zal: "tba" },
-  { name: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-metodyka", zal: "tba" },
-  { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "K. Dudek", cls: "s-projektowanie", zal: "tba" },
-  { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "K. Dudek", cls: "s-projektowanie", zal: "tba" },
-  { name: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz.", ects: "4 ECTS · E", lect: "dr Piotr Kulik", cls: "s-seminarium", zal: "tba" },
-  { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Czernicki", cls: "s-prawne", zal: "praca", zalText: "Praca pisemna — brak szczegółów na temat formy" },
-  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "mgr Agata Gryglak", cls: "s-diagnoza", zal: "tba" },
-  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr Małgorzata Ochnio", cls: "s-diagnoza", zal: "tba" },
-  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zal: "tba" },
-  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zal: "tba" },
-  { name: "Lektorat", form: "lektorat", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr Anna Kawelczyk", cls: "s-lektorat", zal: "tba" },
+  { name: "Socjologia edukacji — Konwersatorium I", form: "konwersatorium", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr hab. I. Białecki", cls: "s-socjologia", zal: "tba" },
+  { name: "Filozoficzno-etyczny wymiar we współczesnym świecie — Konwersatorium II", form: "konwersatorium", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "ks. dr hab. M. Michalski", cls: "s-filozofia", zal: "tba" },
+  { name: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · ZzO", lect: "dr hab. Z.W. Stelmaszuk", cls: "s-metodyka", zal: "tba" },
+  { name: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr K. Pachucka", cls: "s-metodyka", zal: "tba" },
+  { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr E. Młynarczyk-Karabin", cls: "s-projektowanie", zal: "tba" },
+  { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr K. Bulak", cls: "s-projektowanie", zal: "tba" },
+  { name: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz.", ects: "4 ECTS · E", lect: "dr hab. M. Gejdos · dr hab. L. Ploch", cls: "s-seminarium", zal: "tba" },
+  { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Kulik", cls: "s-prawne", zal: "praca", zalText: "Praca pisemna — brak szczegółów na temat formy" },
+  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr A. Panek", cls: "s-diagnoza", zal: "tba" },
+  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zal: "tba" },
+  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · E", lect: "dr A. Strumińska", cls: "s-pedkorekcyjna", zal: "tba" },
+  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zal: "tba" },
+  { name: "Lektorat", form: "lektorat", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zal: "tba" },
 ];
 
 const FORM_LABEL = {
@@ -575,7 +692,7 @@ function buildTable(day, tableId) {
   });
   html += `</tr></thead><tbody>`;
 
-  SLOTS.forEach((slot, si) => {
+  SLOTS[day].forEach((slot, si) => {
     html += `<tr><th data-row="${si}">${slot}</th>`;
     ZJAZDY.forEach((z) => {
       const hits = classes.filter(c => c.slot === si && c.zj.includes(z.n));
@@ -583,7 +700,7 @@ function buildTable(day, tableId) {
         html += `<td class="empty" data-col="${z.n}" data-row="${si}"></td>`;
       } else {
         html += `<td data-col="${z.n}" data-row="${si}">` + hits.map(c => `
-          <div class="cls ${c.cls}" title="${esc(c.full)} — ${c.form}, ${c.hrs} (${c.ects}) — ${c.lect}${c.star ? " · *" : ""}">
+          <div class="cls ${c.cls}" title="${esc(c.full)} — ${c.form}, ${c.hrs} (${c.ects}) — ${c.lect}${c.star ? " · *" : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}">
             <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}</div>
             <div class="meta">
               <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>
@@ -651,15 +768,24 @@ function buildZaliczenia() {
 }
 
 /* ================== TABS ================== */
-document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach(b => {
-      b.classList.toggle("active", b === btn);
-      b.setAttribute("aria-selected", b === btn ? "true" : "false");
-    });
-    document.querySelectorAll(".panel").forEach(p =>
-      p.classList.toggle("active", p.id === "panel-" + btn.dataset.panel));
+function activatePanel(panelName) {
+  document.querySelectorAll(".tab-btn").forEach(b => {
+    const on = b.dataset.panel === panelName;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-selected", on ? "true" : "false");
   });
+  document.querySelectorAll(".panel").forEach(p =>
+    p.classList.toggle("active", p.id === "panel-" + panelName));
+}
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => activatePanel(btn.dataset.panel));
+});
+
+// "Zobacz zmiany" hero link → jump to the Zmiany tab
+document.getElementById("zmianyLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  activatePanel("zmiany");
+  document.getElementById("panel-zmiany").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 </script>
 </body>
