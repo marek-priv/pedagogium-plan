@@ -186,10 +186,10 @@
   .cls .star { color: #b45309; font-weight: 800; font-size: 10px; }
 
   /* cells holding several subjects: cards stack in an inner flex wrapper
-     (td must stay a table-cell or the grid collapses), row grows so each
-     card keeps its title; hours/ECTS stay on the hover tooltip */
-  .matrix td .stack { display: flex; flex-direction: column; gap: 5px; height: 100%; }
-  .matrix td .stack .cls { flex: 1 0 auto; height: auto; }
+     (td must stay a table-cell or the grid collapses); the stack sizes to
+     content so the row grows and nothing overlaps the row below */
+  .matrix td .stack { display: flex; flex-direction: column; gap: 5px; }
+  .matrix td .stack .cls { height: auto; }
 
   /* subject colors */
   .s-konw1, .s-konw2 { --sc: #6366f1; --scbg: #eef0fe; }
