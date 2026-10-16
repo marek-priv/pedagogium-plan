@@ -172,6 +172,14 @@
   .f-cwiczenia { background: #1d9e6f; }
   .f-konwersatorium { background: #8b5cf6; }
   .f-lektorat { background: #e07b39; }
+  .f-spotkanie { background: #b45309; }
+
+  /* classes already held (zjazd 1 under the previous plan) */
+  .cls.past { opacity: .62; border-left-style: dashed; }
+  .cls .done {
+    font-size: 9px; font-weight: 800; color: #92400e;
+    text-transform: uppercase; letter-spacing: .4px;
+  }
   .cls .lect { font-size: 10px; color: var(--ink-soft); font-weight: 600; }
   .cls .hrs { font-size: 9.5px; color: var(--ink-faint); }
   .cls .star { color: #b45309; font-weight: 800; font-size: 10px; }
@@ -194,6 +202,7 @@
   .s-lektorat        { --sc: #ea580c; --scbg: #fdeee3; }
   .s-socjologia      { --sc: #6366f1; --scbg: #eef0fe; }
   .s-filozofia       { --sc: #a855f7; --scbg: #f6effc; }
+  .s-spotkanie       { --sc: #b45309; --scbg: #fef3c7; }
 
   /* ---------- changelog ---------- */
   .changes { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
@@ -534,6 +543,8 @@
           <li>Niedzielne zajęcia stacjonarne odbywają się w <b>sali 11, L.O. nr 17, ul. Elektoralna 5/7</b> (nie w budynku Pedagogium).</li>
           <li>Usunięto oznaczenia <b>*</b> (zajęcia łączone / godziny do ustalenia) — w nowej wersji planu nie występują.</li>
           <li>Terminarz zjazdów i sesja egzaminacyjna (06–07.02.2027) <b>bez zmian</b>.</li>
+          <li><b>Zjazd 1 (03–04.10)</b> odbył się jeszcze wg starego planu — w siatce pozostawiony w wersji archiwalnej (wyciszony wygląd, stary skład prowadzących).</li>
+          <li><b>17.10 (zjazd 2, sobota) 9.45–11.15:</b> dodano <b>spotkanie organizacyjne z władzami uczelni</b> — MS Teams, kanał „Spotkanie organizacyjne z władzami uczelni na rok 2026–2027".</li>
         </ul>
       </div>
     </div>
@@ -620,8 +631,14 @@ const CLASSES = {
     { slot: 4, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr hab. M. Gejdos · dr hab. L. Ploch", cls: "s-seminarium", zj: [3,5,6] },
     { slot: 4, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "dr A. Panek", cls: "s-diagnoza", zj: [4] },
     { slot: 5, title: "Socjologia edukacji — Konw. I", full: "Socjologia edukacji — Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr hab. I. Białecki", cls: "s-socjologia", zj: [6,8,9] },
-    { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Kulik", cls: "s-prawne", zj: [1,2,3,4,5,6,7,8] },
+    { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Kulik", cls: "s-prawne", zj: [2,3,4,5,6,7,8] },
     { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "dr A. Strumińska", cls: "s-pedkorekcyjna", zj: [3,4,7,9] },
+
+    // zjazd 1 odbył się 03–04.10 jeszcze wg poprzedniego planu — wpisy archiwalne
+    { slot: 1, title: "Spotkanie organizacyjne", full: "Spotkanie organizacyjne z władzami uczelni", note: "kanał MS Teams: „Spotkanie organizacyjne z władzami uczelni na rok 2026–2027”", form: "spotkanie", hrs: "", ects: "", lect: "Władze Uczelni · MS Teams", cls: "s-spotkanie", zj: [2] },
+    { slot: 3, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe — zjazd odbył się wg poprzedniego planu", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr Piotr Kulik", cls: "s-seminarium", zj: [1], past: true },
+    { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej — zjazd odbył się wg poprzedniego planu", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Czernicki", cls: "s-prawne", zj: [1], past: true },
+    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — zjazd odbył się wg poprzedniego planu", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [1], past: true },
   ],
   niedziela: [
     { slot: 0, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
@@ -661,12 +678,14 @@ const FORM_LABEL = {
   "ćwiczenia": "ćwiczenia",
   "konwersatorium": "konwers.",
   "lektorat": "lektorat",
+  "spotkanie": "spotkanie",
 };
 const FORM_CLASS = {
   "wykład": "f-wyklad",
   "ćwiczenia": "f-cwiczenia",
   "konwersatorium": "f-konwersatorium",
   "lektorat": "f-lektorat",
+  "spotkanie": "f-spotkanie",
 };
 
 /* ================== RENDER ================== */
@@ -706,15 +725,17 @@ function buildTable(day, tableId) {
       if (!hits.length) {
         html += `<td class="empty" data-col="${z.n}" data-row="${si}"></td>`;
       } else {
-        html += `<td${hits.length > 1 ? ' class="multi"' : ''} data-col="${z.n}" data-row="${si}">` + hits.map(c => `
-          <div class="cls ${c.cls}" title="${esc(c.full)} — ${c.form}, ${c.hrs} (${c.ects}) — ${c.lect}${c.star ? " · *" : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}">
-            <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}</div>
+        html += `<td${hits.length > 1 ? ' class="multi"' : ''} data-col="${z.n}" data-row="${si}">` + hits.map(c => {
+          const hrsLabel = [c.hrs, c.ects].filter(Boolean).join(" · ");
+          return `
+          <div class="cls ${c.cls}${c.past ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}">
+            <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${c.past ? ' <span class="done">· odbyło się</span>' : ""}</div>
             <div class="meta">
               <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>
               <span class="lect">${esc(c.lect)}</span>
             </div>
-            <div class="hrs">${c.hrs} · ${c.ects}</div>
-          </div>`).join("") + `</td>`;
+            ${hrsLabel ? `<div class="hrs">${hrsLabel}</div>` : ""}
+          </div>`; }).join("") + `</td>`;
       }
     });
     html += `</tr>`;
