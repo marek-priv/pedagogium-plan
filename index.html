@@ -270,6 +270,10 @@
   }
   .zchip-tba { background: #f1f5f9; color: #64748b; border: 1px dashed #cbd5e1; }
   .zchip-praca { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+  .zal-det { margin-top: 6px; font-size: 11px; color: var(--ink-soft); line-height: 1.45; }
+  .zal-det b { color: var(--ink); }
+  .zal-det a { color: var(--navy-soft); font-weight: 600; text-decoration: none; }
+  .zal-det a:hover { text-decoration: underline; }
 
   /* ---------- legend ---------- */
   .legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
@@ -528,6 +532,7 @@
         <ul>
           <li><b>Metodyka pracy opiekuńczo-wychowawczej — ćwiczenia</b> (niedziela 18.45–20.15): przeniesione ze <b class="chg-del">zjazdu 2</b> <span class="chg-arrow">→</span> <b class="chg-new">zjazd 6</b> (13.12).</li>
           <li><b>Prawne i systemowe podstawy terapii — wykład</b>: po zmianie prowadzącego na <b class="chg-new">dr P. Kulik</b> forma zaliczenia została zresetowana na <b>„Do ustalenia"</b> (wcześniej „praca pisemna" ustalona z poprzednim prowadzącym).</li>
+          <li><b>Prawne i systemowe podstawy terapii — wykład</b>: podano zaliczenie — <b class="chg-new">praca pisemna</b> (studium przypadku osoby z problemami w uczeniu się, 3–5 stron, do 15.01.2027 na p.kulik@pedagogium.pl, podpis odręczny lub elektroniczny).</li>
         </ul>
       </div>
       <div class="chg-group">
@@ -709,7 +714,8 @@ const SUBJECTS = [
   { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr E. Młynarczyk-Karabin", cls: "s-projektowanie", zal: "tba" },
   { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr K. Bulak", cls: "s-projektowanie", zal: "tba" },
   { name: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz.", ects: "4 ECTS · E", lect: "dr hab. M. Gejdos · dr hab. L. Ploch", cls: "s-seminarium", zal: "tba" },
-  { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Kulik", cls: "s-prawne", zal: "tba" },
+  { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Kulik", cls: "s-prawne", zal: "praca", zalText: "Praca pisemna",
+    zalDet: `<b>Temat:</b> studium przypadku osoby z problemami w uczeniu się — opis problemu oraz propozycja terapii pedagogicznej.<br><b>Objętość:</b> 3–5 stron · <b>Termin:</b> do 15.01.2027<br><b>Wysyłka:</b> <a href="mailto:p.kulik@pedagogium.pl">p.kulik@pedagogium.pl</a><br><b>Podpis:</b> odręczny (skan) lub elektroniczny` },
   { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr A. Panek", cls: "s-diagnoza", zal: "tba" },
   { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zal: "tba" },
   { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · E", lect: "dr hab. D. Al.-Khamisy", cls: "s-pedkorekcyjna", zal: "tba" },
@@ -828,7 +834,7 @@ function buildZaliczenia() {
       <td class="c-lect" data-label="Prowadzący"><span class="lect">${esc(s.lect)}</span></td>
       <td class="c-zal" data-label="Forma zaliczenia">${s.zal === "praca"
         ? `<span class="zchip zchip-praca">${esc(s.zalText)}</span>`
-        : `<span class="zchip zchip-tba">Do ustalenia</span>`}</td>
+        : `<span class="zchip zchip-tba">Do ustalenia</span>`}${s.zalDet ? `<div class="zal-det">${s.zalDet}</div>` : ""}</td>
     </tr>`).join("");
   document.getElementById("tbl-zaliczenia").innerHTML = `
     <thead><tr>
