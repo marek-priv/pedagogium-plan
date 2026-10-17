@@ -221,6 +221,20 @@
   .chg-arrow { color: var(--ink-faint); font-weight: 700; }
   .chg-del { color: #b91c1c; }
   .chg-new { color: #047857; font-weight: 600; }
+
+  /* ---------- contact ---------- */
+  .contact-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .contact-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px 24px; box-shadow: var(--shadow); border-left: 4px solid #f472b6;
+  }
+  .cc-role {
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--ink-faint); margin-bottom: 6px;
+  }
+  .cc-name { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .cc-mail { font-size: 13.5px; color: var(--navy-soft); text-decoration: none; font-weight: 600; }
+  .cc-mail:hover { text-decoration: underline; }
   .chg-stamp {
     margin-bottom: 14px; font-size: 12.5px; color: var(--ink-soft);
     display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
@@ -453,8 +467,8 @@
     <button class="tab-btn" role="tab" aria-selected="false" data-panel="zaliczenia">
       <span class="dot" style="background:#a78bfa"></span> Zaliczenia
     </button>
-    <button class="tab-btn" role="tab" aria-selected="false" data-panel="zmiany">
-      <span class="dot" style="background:#f59e0b"></span> Zmiany w planie
+    <button class="tab-btn" role="tab" aria-selected="false" data-panel="kontakt">
+      <span class="dot" style="background:#f472b6"></span> Kontakt
     </button>
   </nav>
 
@@ -481,6 +495,23 @@
     <h2 class="panel-title">Zaliczenia — formy zaliczenia przedmiotów</h2>
     <div class="table-scroll zal-scroll">
       <table class="matrix zal-table" id="tbl-zaliczenia"></table>
+    </div>
+  </section>
+
+  <!-- ================= KONTAKT ================= -->
+  <section class="panel" id="panel-kontakt" role="tabpanel">
+    <h2 class="panel-title">Kontakt</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="cc-role">Opiekun studentów pedagogiki</div>
+        <div class="cc-name">mgr Katarzyna Bulak</div>
+        <a class="cc-mail" href="mailto:k.bulak@pedagogium.pl">k.bulak@pedagogium.pl</a>
+      </div>
+      <div class="contact-card">
+        <div class="cc-role">Rektor</div>
+        <div class="cc-name">Dr Piotr Kulik</div>
+        <a class="cc-mail" href="mailto:rektor@pedagogium.pl">rektor@pedagogium.pl</a>
+      </div>
     </div>
   </section>
 
