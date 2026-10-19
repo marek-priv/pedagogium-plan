@@ -181,6 +181,7 @@
     font-size: 9px; font-weight: 800; color: #92400e;
     text-transform: uppercase; letter-spacing: .4px;
   }
+  .cls .done.nh { color: #b91c1c; }
   .cls .lect { font-size: 10px; color: var(--ink-soft); font-weight: 600; }
   .cls .hrs { font-size: 9.5px; color: var(--ink-faint); }
   .cls .star { color: #b45309; font-weight: 800; font-size: 10px; }
@@ -528,6 +529,14 @@
     </div>
     <div class="changes">
       <div class="chg-group">
+        <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 19.10.2026</h3>
+        <ul>
+          <li><b>Zjazd 2 (17–18.10)</b> już się odbył — kolumna oznaczona jak zjazd 1 (wyciszone karty). Wyjątek: <b>Lektorat</b> (niedziela) <b class="chg-del">nie odbył się</b>.</li>
+          <li><b>Zjazd 1 — Pedagogika korekcyjna (wykład)</b>: korekta oznaczenia <span class="chg-arrow">→</span> <b class="chg-del">nie odbyło się</b>.</li>
+          <li><b>Zaawansowana diagnoza — ćwiczenia</b>: podano zaliczenie — <b class="chg-new">praca w grupach na kartach pracy podczas ćwiczeń</b>.</li>
+        </ul>
+      </div>
+      <div class="chg-group">
         <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 17.10.2026</h3>
         <ul>
           <li><b>Metodyka pracy opiekuńczo-wychowawczej — ćwiczenia</b> (niedziela 18.45–20.15): przeniesione ze <b class="chg-del">zjazdu 2</b> <span class="chg-arrow">→</span> <b class="chg-new">zjazd 6</b> (13.12).</li>
@@ -642,6 +651,9 @@ const ZJAZDY = [
 ];
 const SESJA = "06–07.02.2027";
 
+/* zjazdy już odbyte — wszystkie karty w tych kolumnach są wyciszone */
+const PAST_ZJ = new Set([2]);
+
 const SLOTS = {
   sobota: [
     "8.00 – 9.30",
@@ -687,16 +699,16 @@ const CLASSES = {
     { slot: 1, title: "Spotkanie organizacyjne", full: "Spotkanie organizacyjne z władzami uczelni", note: "kanał MS Teams: „Spotkanie organizacyjne z władzami uczelni na rok 2026–2027”", form: "spotkanie", hrs: "", ects: "", lect: "Władze Uczelni · MS Teams", cls: "s-spotkanie", zj: [2] },
     { slot: 3, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe — zjazd odbył się wg poprzedniego planu", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr Piotr Kulik", cls: "s-seminarium", zj: [1], past: true },
     { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej — zjazd odbył się wg poprzedniego planu", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Czernicki", cls: "s-prawne", zj: [1], past: true },
-    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — zjazd odbył się wg poprzedniego planu", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [1], past: true },
+    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — zajęcia nie odbyły się (planowane wg poprzedniego planu)", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr Agata Gryglak", cls: "s-pedkorekcyjna", zj: [1], past: true, notHeldZj: [1] },
   ],
   niedziela: [
     { slot: 0, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
     { slot: 0, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Pachucka", cls: "s-metodyka", zj: [4,5,6,7,8,9] },
     { slot: 1, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
     { slot: 1, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Bulak", cls: "s-projektowanie", zj: [4,5,6,7,8,9] },
-    { slot: 2, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4,5,6,7] },
+    { slot: 2, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4,5,6,7], notHeldZj: [2] },
     { slot: 2, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
-    { slot: 3, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4] },
+    { slot: 3, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4], notHeldZj: [2] },
     { slot: 3, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
     { slot: 4, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
     { slot: 4, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
@@ -717,7 +729,8 @@ const SUBJECTS = [
   { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Kulik", cls: "s-prawne", zal: "praca", zalText: "Praca pisemna",
     zalDet: `<b>Temat:</b> studium przypadku osoby z problemami w uczeniu się — opis problemu oraz propozycja terapii pedagogicznej.<br><b>Objętość:</b> 3–5 stron · <b>Termin:</b> do 15.01.2027<br><b>Wysyłka:</b> <a href="mailto:p.kulik@pedagogium.pl">p.kulik@pedagogium.pl</a><br><b>Podpis:</b> odręczny (skan) lub elektroniczny` },
   { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr A. Panek", cls: "s-diagnoza", zal: "tba" },
-  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zal: "tba" },
+  { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zal: "praca", zalText: "Karty pracy",
+    zalDet: `Zaliczenie na podstawie pracy w grupach na kartach pracy podczas ćwiczeń.` },
   { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · E", lect: "dr hab. D. Al.-Khamisy", cls: "s-pedkorekcyjna", zal: "tba" },
   { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zal: "tba" },
   { name: "Lektorat", form: "lektorat", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zal: "tba" },
@@ -777,9 +790,12 @@ function buildTable(day, tableId) {
       } else {
         const cards = hits.map(c => {
           const hrsLabel = [c.hrs, c.ects].filter(Boolean).join(" · ");
+          const notHeld = (c.notHeldZj || []).includes(z.n);
+          const isPast = c.past || PAST_ZJ.has(z.n) || notHeld;
+          const badge = notHeld ? "nie odbyło się" : "odbyło się";
           return `
-          <div class="cls ${c.cls}${c.past ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}">
-            <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${c.past ? ' <span class="done">· odbyło się</span>' : ""}</div>
+          <div class="cls ${c.cls}${isPast ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}${isPast ? " · " + badge : ""}">
+            <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${isPast ? ` <span class="done${notHeld ? " nh" : ""}">· ${badge}</span>` : ""}</div>
             <div class="meta">
               <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>
               <span class="lect">${esc(c.lect)}</span>
