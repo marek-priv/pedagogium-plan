@@ -275,6 +275,33 @@
   .zal-det b { color: var(--ink); }
   .zal-det a { color: var(--navy-soft); font-weight: 600; text-decoration: none; }
   .zal-det a:hover { text-decoration: underline; }
+  .zal-link { cursor: pointer; text-decoration: underline; }
+
+  /* ---------- wytyczne modal ---------- */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(15,25,45,.55);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 42px 16px; z-index: 100; overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(20,30,60,.3);
+    max-width: 720px; width: 100%; padding: 26px 30px; position: relative;
+    animation: rise .25s ease;
+  }
+  .modal-close {
+    position: absolute; top: 12px; right: 14px; border: none; cursor: pointer;
+    width: 32px; height: 32px; border-radius: 8px; background: #eef2f8;
+    color: var(--ink-soft); font-size: 16px; font-weight: 800; line-height: 1;
+  }
+  .modal-close:hover { background: #dfe6f0; color: var(--ink); }
+  .modal h3 { font-size: 15px; font-weight: 800; color: var(--navy); margin: 18px 0 8px; }
+  .modal h3:first-child { margin-top: 0; }
+  .modal p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 10px; }
+  .modal ol { padding-left: 20px; font-size: 13px; color: var(--ink-soft); line-height: 1.55; margin-bottom: 10px; }
+  .modal ol li { margin-bottom: 6px; }
+  .modal ol li b { color: var(--ink); }
 
   /* ---------- legend ---------- */
   .legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
@@ -529,6 +556,12 @@
     </div>
     <div class="changes">
       <div class="chg-group">
+        <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 21.10.2026</h3>
+        <ul>
+          <li><b>Prawne i systemowe podstawy terapii — wykład</b>: dodano <b class="chg-new">szczegółowe wytyczne zaliczenia</b> (analiza przypadku — uczeń ze spektrum autyzmu, IPET, obowiązki szkoły) — link „Szczegółowe wytyczne" w kolumnie Forma zaliczenia otwiera pełną treść.</li>
+        </ul>
+      </div>
+      <div class="chg-group">
         <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 19.10.2026</h3>
         <ul>
           <li><b>Zjazd 2 (17–18.10)</b> już się odbył — kolumna oznaczona jak zjazd 1 (wyciszone karty). Wyjątek: <b>Lektorat</b> (niedziela) <b class="chg-del">nie odbył się</b>.</li>
@@ -636,6 +669,42 @@
 
 </div>
 
+<!-- ================= WYTYCZNE MODAL ================= -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Zamknij">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<template id="doc-prawne">
+  <h3>Opis przypadku</h3>
+  <p>Do klasy II ogólnodostępnej szkoły podstawowej uczęszcza 8-letni chłopiec z rozpoznaniem zaburzeń ze spektrum autyzmu. Uczeń posiada orzeczenie o potrzebie kształcenia specjalnego wydane przez publiczną poradnię psychologiczno-pedagogiczną.</p>
+  <p>Dziecko przejawia trudności w komunikacji społecznej, nawiązywaniu relacji z rówieśnikami, koncentracji uwagi oraz adaptacji do zmian. W sytuacjach przeciążenia bodźcami reaguje wycofaniem lub silnym napięciem emocjonalnym. Jednocześnie wykazuje prawidłowy rozwój intelektualny i duże zainteresowanie naukami przyrodniczymi.</p>
+  <p>Rodzice zgłaszają, że pomimo przekazania orzeczenia szkole nie otrzymali informacji o zaplanowanych formach wsparcia. Nie zostali również zaproszeni do udziału w spotkaniu zespołu opracowującego indywidualny program edukacyjno-terapeutyczny (IPET).</p>
+  <p>Wychowawca informuje rodziców, że szkoła nie dysponuje wystarczającą liczbą specjalistów, dlatego zajęcia rewalidacyjne zostaną uruchomione dopiero w kolejnym semestrze.</p>
+  <p>Dyrektor proponuje rodzicom samodzielne zorganizowanie i finansowanie terapii poza szkołą.</p>
+  <h3>Zadanie</h3>
+  <p>Należy dokonać analizy przedstawionego przypadku z perspektywy obowiązujących przepisów prawa oświatowego oraz zasad funkcjonowania systemu pomocy psychologiczno-pedagogicznej i kształcenia specjalnego.</p>
+  <p>W opracowaniu należy uwzględnić następujące zagadnienia:</p>
+  <ol>
+    <li><b>Status prawny dziecka</b> – jakie uprawnienia wynikają z posiadania orzeczenia o potrzebie kształcenia specjalnego?</li>
+    <li><b>Obowiązki szkoły</b> – jakie działania szkoła powinna podjąć po otrzymaniu orzeczenia i kto odpowiada za ich realizację?</li>
+    <li><b>Dokumentacja</b> – jakie dokumenty powinna opracować szkoła, w jakich terminach oraz kto uczestniczy w ich przygotowaniu?</li>
+    <li><b>Organizacja wsparcia</b> – jakie formy pomocy psychologiczno-pedagogicznej i zajęć rewalidacyjnych mogą zostać zorganizowane dla ucznia? Które z nich wynikają z obowiązków szkoły, a które zależą od rozpoznanych potrzeb?</li>
+    <li><b>Kompetencje i odpowiedzialność</b> – jakie zadania spoczywają na dyrektorze, wychowawcy, pedagogu szkolnym, pedagogu specjalnym i pozostałych specjalistach?</li>
+    <li><b>Prawa rodziców</b> – jakie uprawnienia przysługują rodzicom w zakresie udziału w planowaniu, realizacji i ocenie wsparcia dziecka?</li>
+    <li><b>Ocena zgodności działań szkoły z prawem</b> – wskaż ewentualne nieprawidłowości w postępowaniu placówki, uzasadniając je odpowiednimi przepisami.</li>
+    <li><b>System instytucjonalnego wsparcia</b> – jakie instytucje mogą wspierać szkołę i rodzinę w rozwiązaniu przedstawionej sytuacji? Jakie są ich kompetencje?</li>
+    <li><b>Procedura postępowania</b> – opracuj plan działań, które powinny zostać podjęte przez szkołę w celu zapewnienia dziecku wsparcia zgodnego z obowiązującym prawem.</li>
+    <li><b>Wnioski i rekomendacje</b> – przedstaw rozwiązania organizacyjne i systemowe, które pozwolą zapewnić dziecku realizację jego praw edukacyjnych.</li>
+  </ol>
+  <h3>Wymagania formalne</h3>
+  <p>Praca powinna zawierać odwołania do aktualnych aktów prawnych, ze wskazaniem konkretnych artykułów lub paragrafów mających zastosowanie do analizowanego przypadku.</p>
+  <p>Należy również wyraźnie odróżnić obowiązki wynikające z przepisów prawa od działań rekomendowanych ze względów pedagogicznych.</p>
+  <p>Prosimy o dokładne zapoznanie się z przedstawionymi wymaganiami i uwzględnienie wszystkich wskazanych zagadnień podczas przygotowywania pracy zaliczeniowej.</p>
+</template>
+
 <script>
 /* ================== DATA ================== */
 const ZJAZDY = [
@@ -726,7 +795,7 @@ const SUBJECTS = [
   { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr E. Młynarczyk-Karabin", cls: "s-projektowanie", zal: "tba" },
   { name: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr K. Bulak", cls: "s-projektowanie", zal: "tba" },
   { name: "Seminarium dyplomowe", form: "konwersatorium", hrs: "18 godz.", ects: "4 ECTS · E", lect: "dr hab. M. Gejdos · dr hab. L. Ploch", cls: "s-seminarium", zal: "tba" },
-  { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Kulik", cls: "s-prawne", zal: "praca", zalText: "Praca pisemna",
+  { name: "Prawne i systemowe podstawy terapii pedagogicznej — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "dr P. Kulik", cls: "s-prawne", zal: "praca", zalText: "Praca pisemna", zalDoc: "prawne",
     zalDet: `<b>Temat:</b> studium przypadku osoby z problemami w uczeniu się — opis problemu oraz propozycja terapii pedagogicznej.<br><b>Objętość:</b> 3–5 stron · <b>Termin:</b> do 15.01.2027<br><b>Wysyłka:</b> <a href="mailto:p.kulik@pedagogium.pl">p.kulik@pedagogium.pl</a><br><b>Podpis:</b> odręczny (skan) lub elektroniczny` },
   { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr A. Panek", cls: "s-diagnoza", zal: "tba" },
   { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zal: "praca", zalText: "Karty pracy",
@@ -850,7 +919,7 @@ function buildZaliczenia() {
       <td class="c-lect" data-label="Prowadzący"><span class="lect">${esc(s.lect)}</span></td>
       <td class="c-zal" data-label="Forma zaliczenia">${s.zal === "praca"
         ? `<span class="zchip zchip-praca">${esc(s.zalText)}</span>`
-        : `<span class="zchip zchip-tba">Do ustalenia</span>`}${s.zalDet ? `<div class="zal-det">${s.zalDet}</div>` : ""}</td>
+        : `<span class="zchip zchip-tba">Do ustalenia</span>`}${s.zalDet ? `<div class="zal-det">${s.zalDet}</div>` : ""}${s.zalDoc ? `<div class="zal-det"><b>Szczegółowe wytyczne:</b> <a class="zal-link" data-doc="${s.zalDoc}">link</a></div>` : ""}</td>
     </tr>`).join("");
   document.getElementById("tbl-zaliczenia").innerHTML = `
     <thead><tr>
@@ -883,6 +952,26 @@ document.getElementById("zmianyLink").addEventListener("click", (e) => {
   activatePanel("zmiany");
   document.getElementById("panel-zmiany").scrollIntoView({ behavior: "smooth", block: "start" });
 });
+
+// wytyczne modal — opens on "Szczegółowe wytyczne" link in Zaliczenia
+const modalOverlay = document.getElementById("modal-overlay");
+document.addEventListener("click", (e) => {
+  const link = e.target.closest(".zal-link");
+  if (!link) return;
+  e.preventDefault();
+  const doc = document.getElementById("doc-" + link.dataset.doc);
+  if (!doc) return;
+  document.getElementById("modal-body").innerHTML = doc.innerHTML;
+  modalOverlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+});
+function closeModal() {
+  modalOverlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.getElementById("modal-close").addEventListener("click", closeModal);
+modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 </script>
 </body>
 </html>
