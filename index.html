@@ -174,6 +174,7 @@
   .f-konwersatorium { background: #8b5cf6; }
   .f-lektorat { background: #e07b39; }
   .f-spotkanie { background: #b45309; }
+  .f-online { background: #38bdf8; margin-left: 3px; }
 
   /* classes already held (zjazd 1 under the previous plan) */
   .cls.past { opacity: .62; border-left-style: dashed; }
@@ -573,6 +574,7 @@
         <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 08.11.2026</h3>
         <ul>
           <li><b>Sobota zjazdu 3 (7.11)</b> odbyła się — sobotnie karty oznaczone jako zrealizowane (wyciszone); zajęcia niedzielne zjazdu 3 (8.11) pozostają aktywne.</li>
+          <li><b>Niedziele zjazdów III (8.11) i IV (15.11)</b>: zmiana formuły <b class="chg-del">stacjonarnie (sala 11)</b> <span class="chg-arrow">→</span> <b class="chg-new">online (MS Teams)</b> — karty oznaczone chipiem „online".</li>
         </ul>
       </div>
       <div class="chg-group">
@@ -692,6 +694,7 @@
       <ul>
         <li><b>Sobota:</b> wszystkie zajęcia w formule <b>online</b>.</li>
         <li><b>Niedziela:</b> zajęcia stacjonarne — <b>sala 11, L.O. nr 17, ul. Elektoralna 5/7</b>.</li>
+        <li><b>Wyjątek:</b> niedziele zjazdów III (8.11) i IV (15.11) — <b>zajęcia online (MS Teams)</b>.</li>
       </ul>
     </div>
     <div class="note">
@@ -760,6 +763,8 @@ const SESJA = "06–07.02.2027";
 const PAST_ZJ = new Set([1, 2]);
 /* sobotnie części odbytych zjazdów — niedzielna część pozostaje aktywna */
 const PAST_SOB_ZJ = new Set([3]);
+/* niedzielne zjazdy przeniesione do trybu online (zamiast sali 11) */
+const ONLINE_NDZ_ZJ = new Set([3, 4]);
 
 const SLOTS = {
   sobota: [
@@ -915,11 +920,12 @@ function buildTable(day, tableId) {
           const isPast = c.past || PAST_ZJ.has(z.n) || notHeld ||
             (day === "sobota" && PAST_SOB_ZJ.has(z.n));
           const badge = notHeld ? "nie odbyło się" : "odbyło się";
+          const isOnline = day === "niedziela" && ONLINE_NDZ_ZJ.has(z.n);
           return `
-          <div class="cls ${c.cls}${isPast ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}${isPast ? " · " + badge : ""}">
+          <div class="cls ${c.cls}${isPast ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? (isOnline ? " · online (MS Teams)" : " · " + SALA_NDZ) : ""}${isPast ? " · " + badge : ""}">
             <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${isPast ? ` <span class="done${notHeld ? " nh" : ""}">· ${badge}</span>` : ""}</div>
             <div class="meta">
-              <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>
+              <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>${isOnline ? '<span class="fchip f-online">online</span>' : ""}
               <span class="lect">${esc(c.lect)}</span>
             </div>
             ${hrsLabel ? `<div class="hrs">${hrsLabel}</div>` : ""}
