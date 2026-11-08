@@ -570,6 +570,12 @@
     </div>
     <div class="changes">
       <div class="chg-group">
+        <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 08.11.2026</h3>
+        <ul>
+          <li><b>Sobota zjazdu 3 (7.11)</b> odbyła się — sobotnie karty oznaczone jako zrealizowane (wyciszone); zajęcia niedzielne zjazdu 3 (8.11) pozostają aktywne.</li>
+        </ul>
+      </div>
+      <div class="chg-group">
         <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 06.11.2026 (nowa wersja planu)</h3>
         <ul>
           <li><b>Pedagogika korekcyjna — wykład</b>: zmiana prowadzącego <b class="chg-del">dr hab. D. Al.-Khamisy</b> <span class="chg-arrow">→</span> <b class="chg-new">dr hab. M. Dycht</b>; zajęcia rozszerzone — teraz bloki <b>17.00</b> (zj. 4, 5, 7, 8, 9) <i>oraz</i> <b>18.45</b> (zj. 4, 5, 7, 8). <b class="chg-new">Podano termin egzaminu: 6.02.2027 (sobota), 8.00–9.30, zdalnie.</b></li>
@@ -752,6 +758,8 @@ const SESJA = "06–07.02.2027";
 
 /* zjazdy już odbyte — wszystkie karty w tych kolumnach są wyciszone */
 const PAST_ZJ = new Set([1, 2]);
+/* sobotnie części odbytych zjazdów — niedzielna część pozostaje aktywna */
+const PAST_SOB_ZJ = new Set([3]);
 
 const SLOTS = {
   sobota: [
@@ -904,7 +912,8 @@ function buildTable(day, tableId) {
         const cards = hits.map(c => {
           const hrsLabel = [c.hrs, c.ects].filter(Boolean).join(" · ");
           const notHeld = (c.notHeldZj || []).includes(z.n);
-          const isPast = c.past || PAST_ZJ.has(z.n) || notHeld;
+          const isPast = c.past || PAST_ZJ.has(z.n) || notHeld ||
+            (day === "sobota" && PAST_SOB_ZJ.has(z.n));
           const badge = notHeld ? "nie odbyło się" : "odbyło się";
           return `
           <div class="cls ${c.cls}${isPast ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? " · " + SALA_NDZ : ""}${isPast ? " · " + badge : ""}">
