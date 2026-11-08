@@ -178,6 +178,8 @@
 
   /* classes already held (zjazd 1 under the previous plan) */
   .cls.past { opacity: .62; border-left-style: dashed; }
+  .cls.exempt { opacity: .5; border-left-style: dotted; }
+  .cls .done.ex { color: #047857; font-weight: 800; }
   .cls .done {
     font-size: 9px; font-weight: 800; color: #92400e;
     text-transform: uppercase; letter-spacing: .4px;
@@ -274,6 +276,7 @@
   .zchip-tba { background: #f1f5f9; color: #64748b; border: 1px dashed #cbd5e1; }
   .zchip-praca { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
   .zchip-egzamin { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; }
+  .zchip-ok { background: #d1fae5; color: #047857; border: 1px solid #6ee7b7; }
   .zal-det { margin-top: 6px; font-size: 11px; color: var(--ink-soft); line-height: 1.45; }
   .zal-det b { color: var(--ink); }
   .zal-det a { color: var(--navy-soft); font-weight: 600; text-decoration: none; }
@@ -580,6 +583,7 @@
         <ul>
           <li><b>Sobota zjazdu 3 (7.11)</b> odbyła się — sobotnie karty oznaczone jako zrealizowane (wyciszone); zajęcia niedzielne zjazdu 3 (8.11) pozostają aktywne.</li>
           <li><b>Niedziele zjazdów III (8.11) i IV (15.11)</b>: zmiana formuły <b class="chg-del">stacjonarnie (sala 11)</b> <span class="chg-arrow">→</span> <b class="chg-new">online (MS Teams)</b> — karty oznaczone chipiem „online".</li>
+          <li><b>Lektorat</b>: zwolnienie z zajęć od zjazdu 4 (Marek — zaliczone) — karty pozostają w siatce, ale są wyciszone z zielonym znacznikiem; znacznik widoczny też w zakładce Zaliczenia.</li>
         </ul>
       </div>
       <div class="chg-group">
@@ -832,9 +836,9 @@ const CLASSES = {
     { slot: 1, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zj: [2,3] },
     { slot: 1, title: "Projektowanie i ewaluacja programów", full: "Projektowanie i ewaluacja indywidualnych programów terapeutyczno-edukacyjnych", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Bulak", cls: "s-projektowanie", zj: [5,6,7,8,9] },
     { slot: 1, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Pachucka", cls: "s-metodyka", zj: [4] },
-    { slot: 2, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4,5,6,7], notHeldZj: [2] },
+    { slot: 2, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4,5,6,7], notHeldZj: [2], exemptZj: [4,5,6,7] },
     { slot: 2, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
-    { slot: 3, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4], notHeldZj: [2] },
+    { slot: 3, title: "Lektorat", full: "Lektorat", form: "lektorat", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zj: [2,3,4], notHeldZj: [2], exemptZj: [4] },
     { slot: 3, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
     { slot: 3, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr K. Pachucka", cls: "s-metodyka", zj: [5,6,7] },
     { slot: 4, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami", form: "ćwiczenia", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zj: [8,9] },
@@ -865,6 +869,7 @@ const SUBJECTS = [
     zalDet: `<b>Termin:</b> 6.02.2027 (sobota), godz. 8.00–9.30 · <b>forma:</b> zdalna` },
   { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zal: "tba" },
   { name: "Lektorat", form: "lektorat", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zal: "egzamin", zalText: "Egzamin",
+    zalNote: "Marek — zaliczone",
     zalDet: `Test + pytania otwarte · <b>dokładny format do potwierdzenia</b>` },
 ];
 
@@ -927,9 +932,10 @@ function buildTable(day, tableId) {
             (day === "sobota" && PAST_SOB_ZJ.has(z.n));
           const badge = notHeld ? "nie odbyło się" : "odbyło się";
           const isOnline = day === "niedziela" && ONLINE_NDZ_ZJ.has(z.n);
+          const exempt = (c.exemptZj || []).includes(z.n);
           return `
-          <div class="cls ${c.cls}${isPast ? " past" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? (isOnline ? " · online (MS Teams)" : " · " + SALA_NDZ) : ""}${isPast ? " · " + badge : ""}">
-            <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${isPast ? ` <span class="done${notHeld ? " nh" : ""}">· ${badge}</span>` : ""}</div>
+          <div class="cls ${c.cls}${isPast ? " past" : ""}${exempt ? " exempt" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? (isOnline ? " · online (MS Teams)" : " · " + SALA_NDZ) : ""}${isPast ? " · " + badge : ""}${exempt ? " · Marek — zaliczone" : ""}">
+            <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${isPast ? ` <span class="done${notHeld ? " nh" : ""}">· ${badge}</span>` : ""}${exempt ? ' <span class="done ex">· Marek — zaliczone</span>' : ""}</div>
             <div class="meta">
               <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>${isOnline ? '<span class="fchip f-online">online</span>' : ""}
               <span class="lect">${esc(c.lect)}</span>
@@ -984,7 +990,7 @@ function buildZaliczenia() {
       <td class="c-lect" data-label="Prowadzący"><span class="lect">${esc(s.lect)}</span></td>
       <td class="c-zal" data-label="Forma zaliczenia">${s.zal !== "tba"
         ? `<span class="zchip zchip-${s.zal}">${esc(s.zalText)}</span>`
-        : `<span class="zchip zchip-tba">Do ustalenia</span>`}${s.zalDet ? `<div class="zal-det">${s.zalDet}</div>` : ""}${s.zalDoc ? `<div class="zal-det"><b>Szczegółowe wytyczne:</b> <a class="zal-link" data-doc="${s.zalDoc}">link</a></div>` : ""}</td>
+        : `<span class="zchip zchip-tba">Do ustalenia</span>`}${s.zalNote ? ` <span class="zchip zchip-ok">${esc(s.zalNote)}</span>` : ""}${s.zalDet ? `<div class="zal-det">${s.zalDet}</div>` : ""}${s.zalDoc ? `<div class="zal-det"><b>Szczegółowe wytyczne:</b> <a class="zal-link" data-doc="${s.zalDoc}">link</a></div>` : ""}</td>
     </tr>`).join("");
   document.getElementById("tbl-zaliczenia").innerHTML = `
     <thead><tr>
