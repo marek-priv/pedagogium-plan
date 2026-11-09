@@ -126,7 +126,7 @@
   .matrix thead th .zh { display: block; font-size: 11.5px; letter-spacing: .5px; text-transform: uppercase; }
   .matrix thead th .zd { display: block; margin-top: 2px; font-weight: 600; color: #ffd27a; font-size: 11.5px; }
   .matrix thead th .zday { display: block; font-weight: 500; color: #b9c6e2; font-size: 9.5px; text-transform: uppercase; letter-spacing: .4px; }
-  .matrix thead th.time-col { min-width: 108px; text-align: left; padding-left: 14px; }
+  .matrix thead th.time-col { min-width: 108px; text-align: left; padding-left: 14px; position: sticky; left: 0; z-index: 15; }
   .matrix thead th.hl-col { background: #3a5a96; }
 
   .matrix tbody th {
@@ -134,7 +134,7 @@
     background: #f7f9fc;
     font-size: 12px; font-weight: 700; color: var(--ink);
     padding: 8px 12px; text-align: left; white-space: nowrap;
-    box-shadow: 1px 0 0 var(--line);
+    box-shadow: 2px 0 5px rgba(15, 33, 72, .09);
   }
   .matrix tbody tr:nth-child(even) th { background: #fbfcfe; }
   .matrix tbody tr:nth-child(even) td { background: #fbfcfe; }
