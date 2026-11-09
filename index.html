@@ -147,6 +147,18 @@
   .matrix tbody tr:hover td, .matrix tbody tr:hover th { background: #eef3fb; }
   .matrix td.hl-col { background: #eef3fb; }
   .matrix tbody tr:hover td.hl-col { background: #e2ebf9; }
+  .matrix td.col-hidden { display: none; }
+  .matrix th.col-hidden { min-width: 24px; width: 24px; padding: 4px 2px; background: #e9edf5; }
+  .matrix th.col-hidden .zd, .matrix th.col-hidden .zday { display: none; }
+  .matrix th.col-hidden .zh { font-size: 9px; }
+  .matrix th.past-col { cursor: pointer; user-select: none; }
+  .matrix .exp { font-weight: 800; margin-left: 2px; }
+  .matrix td.col-hidden { display: none; }
+  .matrix th.col-hidden { min-width: 24px; width: 24px; padding: 4px 2px; background: #e9edf5; }
+  .matrix th.col-hidden .zd, .matrix th.col-hidden .zday { display: none; }
+  .matrix th.col-hidden .zh { font-size: 9px; }
+  .matrix th.past-col { cursor: pointer; user-select: none; }
+  .matrix .exp { font-weight: 800; margin-left: 2px; }
   .matrix td.hl-both { background: #dbe7fa !important; }
 
   /* ---------- class card ---------- */
@@ -575,9 +587,16 @@
     <h2 class="panel-title">Zmiany w planie</h2>
     <div class="chg-stamp">
       <span class="ver">Wersja ujednolicona</span>
-      <span>Aktualizacja: <b>06.11.2026</b> — nowa ujednolicona wersja planu; zmiany dotyczą wyłącznie zjazdów 3–9 (zjazdy 1–2 zachowane jako odbyte).</span>
+      <span>Aktualizacja: <b>09.11.2026</b> — nowa ujednolicona wersja planu; zmiany dotyczą wyłącznie zjazdów 3–9 (zjazdy 1–2 zachowane jako odbyte).</span>
     </div>
     <div class="changes">
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 09.11.2026</h3>
+        <ul>
+          <li><b>Niedziela zjazdu 3 (8.11)</b> odbyła się — cały zjazd 3 oznaczony jako zrealizowany (wyciszony).</li>
+          <li><b>Zwijane kolumny zjazdów odbytych</b> — przeszłe zjazdy są domyślnie ukryte (wąski pasek „Z1 +"); kliknięcie nagłówka rozwija kolumnę, ponowne kliknięcie ją zwija.</li>
+        </ul>
+      </div>
       <div class="chg-group">
         <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 08.11.2026</h3>
         <ul>
@@ -769,9 +788,9 @@ const ZJAZDY = [
 const SESJA = "06–07.02.2027";
 
 /* zjazdy już odbyte — wszystkie karty w tych kolumnach są wyciszone */
-const PAST_ZJ = new Set([1, 2]);
+const PAST_ZJ = new Set([1, 2, 3]);
 /* sobotnie części odbytych zjazdów — niedzielna część pozostaje aktywna */
-const PAST_SOB_ZJ = new Set([3]);
+const PAST_SOB_ZJ = new Set([]);
 /* niedzielne zjazdy przeniesione do trybu online (zamiast sali 11) */
 const ONLINE_NDZ_ZJ = new Set([3, 4]);
 
@@ -914,7 +933,8 @@ function buildTable(day, tableId) {
 
   let html = `<thead><tr><th class="time-col">Godzina</th>`;
   ZJAZDY.forEach((z) => {
-    html += `<th data-col="${z.n}"><span class="zh">Zjazd ${z.n}</span><span class="zd">${z[dayKey]}</span><span class="zday">${dayWord}</span></th>`;
+    const collapsed = PAST_ZJ.has(z.n);
+    html += `<th data-col="${z.n}"${collapsed ? ' class="past-col col-hidden"' : ""}><span class="zh">${collapsed ? "Z" + z.n : "Zjazd " + z.n}</span><span class="zd">${z[dayKey]}</span><span class="zday">${dayWord}</span>${collapsed ? '<span class="exp">+</span>' : ""}</th>`;
   });
   html += `</tr></thead><tbody>`;
 
@@ -923,7 +943,7 @@ function buildTable(day, tableId) {
     ZJAZDY.forEach((z) => {
       const hits = classes.filter(c => c.slot === si && c.zj.includes(z.n));
       if (!hits.length) {
-        html += `<td class="empty" data-col="${z.n}" data-row="${si}"></td>`;
+        html += `<td class="empty${PAST_ZJ.has(z.n) ? " col-hidden" : ""}" data-col="${z.n}" data-row="${si}"></td>`;
       } else {
         const cards = hits.map(c => {
           const hrsLabel = [c.hrs, c.ects].filter(Boolean).join(" · ");
@@ -942,7 +962,7 @@ function buildTable(day, tableId) {
             </div>
             ${hrsLabel ? `<div class="hrs">${hrsLabel}</div>` : ""}
           </div>`; }).join("");
-        html += `<td data-col="${z.n}" data-row="${si}">` +
+        html += `<td${PAST_ZJ.has(z.n) ? ' class="col-hidden"' : ""} data-col="${z.n}" data-row="${si}">` +
           (hits.length > 1 ? `<div class="stack">${cards}</div>` : cards) + `</td>`;
       }
     });
@@ -950,6 +970,15 @@ function buildTable(day, tableId) {
   });
   html += `</tbody>`;
   tbl.innerHTML = html;
+  tbl.querySelectorAll("th.past-col").forEach((th) => {
+    th.addEventListener("click", () => {
+      const col = th.dataset.col;
+      const hidden = !th.classList.contains("col-hidden");
+      tbl.querySelectorAll(`[data-col="${col}"]`).forEach((el) => el.classList.toggle("col-hidden", hidden));
+      th.querySelector(".exp").textContent = hidden ? "+" : "−";
+      th.querySelector(".zh").textContent = hidden ? "Z" + col : "Zjazd " + col;
+    });
+  });
 
   // column + row hover tracking
   tbl.querySelectorAll("td").forEach(td => {
