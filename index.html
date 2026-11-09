@@ -147,14 +147,9 @@
   .matrix tbody tr:hover td, .matrix tbody tr:hover th { background: #eef3fb; }
   .matrix td.hl-col { background: #eef3fb; }
   .matrix tbody tr:hover td.hl-col { background: #e2ebf9; }
-  .matrix td.col-hidden { display: none; }
-  .matrix th.col-hidden { min-width: 24px; width: 24px; padding: 4px 2px; background: #e9edf5; }
-  .matrix th.col-hidden .zd, .matrix th.col-hidden .zday { display: none; }
-  .matrix th.col-hidden .zh { font-size: 9px; }
-  .matrix th.past-col { cursor: pointer; user-select: none; }
-  .matrix .exp { font-weight: 800; margin-left: 2px; }
-  .matrix td.col-hidden { display: none; }
-  .matrix th.col-hidden { min-width: 24px; width: 24px; padding: 4px 2px; background: #e9edf5; }
+  .matrix td.col-hidden { width: 22px; min-width: 22px; max-width: 22px; padding: 0; overflow: hidden; background: #eef1f7; }
+  .matrix td.col-hidden > * { display: none; }
+  .matrix th.col-hidden { min-width: 22px; width: 22px; max-width: 22px; padding: 4px 2px; background: #e9edf5; }
   .matrix th.col-hidden .zd, .matrix th.col-hidden .zday { display: none; }
   .matrix th.col-hidden .zh { font-size: 9px; }
   .matrix th.past-col { cursor: pointer; user-select: none; }
