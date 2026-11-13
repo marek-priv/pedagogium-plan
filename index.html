@@ -591,7 +591,7 @@
         <ul>
           <li><b>Nowa wersja planu</b> — zmiany w siatce sobotniej od zjazdu 4: <b>Diagnoza — wykład</b> ma nowe bloki (8.00 / 9.45 / 15.15 / 17.00) i nowego prowadzącego <b class="chg-del">dr A. Panek</b> <span class="chg-arrow">→</span> <b class="chg-new">dr G. Kmiecik</b>; <b>Konwersatorium II</b>, <b>Metodyka — wykład</b>, <b>Prawne</b>, <b>Socjologia</b> i <b>Projektowanie — wykład</b> mają zmienione zestawy zjazdów (m.in. Metodyka traci zjazd 9, Projektowanie — wykład pojawia się też o 11.30).</li>
           <li><b>Niedziela:</b> nowe zajęcie — <b>Projektowanie — ćwiczenia, zjazd 6, 18.45–20.15</b>; reszta siatki bez zmian.</li>
-          <li><b>Miejsca zajęć:</b> stacjonarne niedziele w <b>Pedagogium, ul. Marszałkowska 115</b>; zajęcia z oznaczeniem <b>„aula A"</b> (Lektorat oraz część Metodyki — ćwiczenia) w <b>auli A, ul. Siedmiogrodzka 3A</b>. Niedziela zjazdu IV (15.11) wraca do formy stacjonarnej (wcześniej online).</li>
+          <li><b>Miejsca zajęć:</b> stacjonarne niedziele w <b>Pedagogium, ul. Marszałkowska 115</b>, <b>cały zjazd IV (15.11) w WSZ — Siedmiogrodzka 3A</b>; zajęcia z oznaczeniem <b>„aula A"</b> (Lektorat oraz część Metodyki — ćwiczenia) w auli A. Niedziela zjazdu IV (15.11) wraca do formy stacjonarnej (wcześniej online).</li>
         </ul>
       </div>
       <div class="chg-group">
@@ -726,7 +726,7 @@
       <ul>
         <li><b>Sobota:</b> wszystkie zajęcia w formule <b>online</b>.</li>
         <li><b>Niedziela:</b> zajęcia stacjonarne — <b>Pedagogium, ul. Marszałkowska 115</b>.</li>
-        <li><b>Wyjątek — aula A:</b> Lektorat oraz część spotkań <b>Metodyki — ćwiczenia</b> (oznaczone chipem „aula A") odbywa się w <b>auli A, ul. Siedmiogrodzka 3A, 01-204 Warszawa</b>.</li>
+        <li><b>Cały zjazd IV (niedziela 15.11)</b> odbywa się w <b>WSZ — Siedmiogrodzka 3A, 01-204 Warszawa</b>; zajęcia z chipem „aula A" (Lektorat, część Metodyki — ćwiczenia) są w auli A tego budynku.</li>
         <li><b>Historia:</b> niedziela zjazdu III (8.11) odbyła się w formule <b>online (MS Teams)</b>.</li>
       </ul>
     </div>
@@ -821,6 +821,8 @@ const SLOTS = {
 };
 const SALA_NDZ = "Pedagogium, ul. Marszałkowska 115";
 const AULA_A = "aula A, ul. Siedmiogrodzka 3A (WSZ)";
+/* całe niedziele z niestandardowym adresem (np. zjazd 4 w WSZ) */
+const SALA_NDZ_ALT = { 4: "WSZ — Szkoła Wyższa, Siedmiogrodzka 3A" };
 
 // short display titles keep cells readable; full title in tooltip
 const CLASSES = {
@@ -964,7 +966,7 @@ function buildTable(day, tableId) {
           const isOnline = day === "niedziela" && ONLINE_NDZ_ZJ.has(z.n);
           const exempt = (c.exemptZj || []).includes(z.n);
           return `
-          <div class="cls ${c.cls}${isPast ? " past" : ""}${exempt ? " exempt" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? (isOnline ? " · online (MS Teams)" : " · " + (c.loc === "aulaA" ? AULA_A : SALA_NDZ)) : ""}${isPast ? " · " + badge : ""}${exempt ? " · Marek — zaliczone" : ""}">
+          <div class="cls ${c.cls}${isPast ? " past" : ""}${exempt ? " exempt" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? (isOnline ? " · online (MS Teams)" : " · " + (c.loc === "aulaA" ? AULA_A : (SALA_NDZ_ALT[z.n] || SALA_NDZ))) : ""}${isPast ? " · " + badge : ""}${exempt ? " · Marek — zaliczone" : ""}">
             <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${isPast ? ` <span class="done${notHeld ? " nh" : ""}">· ${badge}</span>` : ""}${exempt ? ' <span class="done ex">· Marek — zaliczone</span>' : ""}</div>
             <div class="meta">
               <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>${isOnline ? '<span class="fchip f-online">online</span>' : ""}${c.loc === "aulaA" ? '<span class="fchip f-aula">aula A</span>' : ""}
