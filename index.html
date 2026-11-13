@@ -582,9 +582,15 @@
     <h2 class="panel-title">Zmiany w planie</h2>
     <div class="chg-stamp">
       <span class="ver">Wersja ujednolicona</span>
-      <span>Aktualizacja: <b>09.11.2026</b> — nowa ujednolicona wersja planu; zmiany dotyczą wyłącznie zjazdów 3–9 (zjazdy 1–2 zachowane jako odbyte).</span>
+      <span>Aktualizacja: <b>13.11.2026</b> — nowa ujednolicona wersja planu; zmiany dotyczą wyłącznie zjazdów 3–9 (zjazdy 1–2 zachowane jako odbyte).</span>
     </div>
     <div class="changes">
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 13.11.2026</h3>
+        <ul>
+          <li><b>Niedziela zjazdu IV (15.11)</b>: zmiana formuły <b class="chg-del">online (MS Teams)</b> <span class="chg-arrow">→</span> <b class="chg-new">stacjonarnie — Warszawska Szkoła Zarządzania — Szkoła Wyższa, Siedmiogrodzka 3A, 01-204 Warszawa</b>. Pozostałe niedziele bez zmian (sala 11, Elektoralna 5/7).</li>
+        </ul>
+      </div>
       <div class="chg-group">
         <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 09.11.2026</h3>
         <ul>
@@ -717,7 +723,7 @@
       <ul>
         <li><b>Sobota:</b> wszystkie zajęcia w formule <b>online</b>.</li>
         <li><b>Niedziela:</b> zajęcia stacjonarne — <b>sala 11, L.O. nr 17, ul. Elektoralna 5/7</b>.</li>
-        <li><b>Wyjątek:</b> niedziele zjazdów III (8.11) i IV (15.11) — <b>zajęcia online (MS Teams)</b>.</li>
+        <li><b>Wyjątki:</b> niedziela zjazdu III (8.11) — <b>zajęcia online (MS Teams)</b>; niedziela zjazdu IV (15.11) — <b>Warszawska Szkoła Zarządzania — Szkoła Wyższa, Siedmiogrodzka 3A, 01-204 Warszawa</b>.</li>
       </ul>
     </div>
     <div class="note">
@@ -787,7 +793,7 @@ const PAST_ZJ = new Set([1, 2, 3]);
 /* sobotnie części odbytych zjazdów — niedzielna część pozostaje aktywna */
 const PAST_SOB_ZJ = new Set([]);
 /* niedzielne zjazdy przeniesione do trybu online (zamiast sali 11) */
-const ONLINE_NDZ_ZJ = new Set([3, 4]);
+const ONLINE_NDZ_ZJ = new Set([3]);
 
 const SLOTS = {
   sobota: [
@@ -810,6 +816,8 @@ const SLOTS = {
   ],
 };
 const SALA_NDZ = "sala 11, L.O. nr 17, ul. Elektoralna 5/7";
+/* niedzielne zjazdy z niestandardowym miejscem zajęć */
+const SALA_NDZ_ALT = { 4: "WSZ — Szkoła Wyższa, Siedmiogrodzka 3A" };
 
 // short display titles keep cells readable; full title in tooltip
 const CLASSES = {
@@ -949,7 +957,7 @@ function buildTable(day, tableId) {
           const isOnline = day === "niedziela" && ONLINE_NDZ_ZJ.has(z.n);
           const exempt = (c.exemptZj || []).includes(z.n);
           return `
-          <div class="cls ${c.cls}${isPast ? " past" : ""}${exempt ? " exempt" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? (isOnline ? " · online (MS Teams)" : " · " + SALA_NDZ) : ""}${isPast ? " · " + badge : ""}${exempt ? " · Marek — zaliczone" : ""}">
+          <div class="cls ${c.cls}${isPast ? " past" : ""}${exempt ? " exempt" : ""}" title="${esc(c.full)} — ${c.form}${hrsLabel ? ", " + hrsLabel : ""} — ${c.lect}${c.star ? " · *" : ""}${c.note ? " · " + esc(c.note) : ""}${day === "niedziela" ? (isOnline ? " · online (MS Teams)" : " · " + (SALA_NDZ_ALT[z.n] || SALA_NDZ)) : ""}${isPast ? " · " + badge : ""}${exempt ? " · Marek — zaliczone" : ""}">
             <div class="t">${esc(c.title)}${c.star ? ' <span class="star">*</span>' : ""}${isPast ? ` <span class="done${notHeld ? " nh" : ""}">· ${badge}</span>` : ""}${exempt ? ' <span class="done ex">· Marek — zaliczone</span>' : ""}</div>
             <div class="meta">
               <span class="fchip ${FORM_CLASS[c.form]}">${FORM_LABEL[c.form]}</span>${isOnline ? '<span class="fchip f-online">online</span>' : ""}
