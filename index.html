@@ -284,6 +284,7 @@
   .zchip-tba { background: #f1f5f9; color: #64748b; border: 1px dashed #cbd5e1; }
   .zchip-praca { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
   .zchip-egzamin { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; }
+  .zchip-test { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; }
   .zchip-ok { background: #d1fae5; color: #047857; border: 1px solid #6ee7b7; }
   .zal-det { margin-top: 6px; font-size: 11px; color: var(--ink-soft); line-height: 1.45; }
   .zal-det b { color: var(--ink); }
@@ -583,9 +584,15 @@
     <h2 class="panel-title">Zmiany w planie</h2>
     <div class="chg-stamp">
       <span class="ver">Wersja ujednolicona</span>
-      <span>Aktualizacja: <b>13.11.2026</b> — nowa ujednolicona wersja planu; zmiany dotyczą wyłącznie zjazdów 3–9 (zjazdy 1–2 zachowane jako odbyte).</span>
+      <span>Aktualizacja: <b>14.11.2026</b> — nowa ujednolicona wersja planu; zmiany dotyczą wyłącznie zjazdów 3–9 (zjazdy 1–2 zachowane jako odbyte).</span>
     </div>
     <div class="changes">
+      <div class="chg-group">
+        <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 14.11.2026</h3>
+        <ul>
+          <li><b>Zaliczenie — Pedagogika korekcyjna (wykład):</b> <b class="chg-del">egzamin 6.02.2027, 8.00–9.30, zdalnie</b> <span class="chg-arrow">→</span> <b class="chg-new">test 30.01.2027</b> — 20 pytań testowych przez MS Teams (link, bez logowania), czas 1.5 h. Chip w Zaliczeniach: „Test".</li>
+        </ul>
+      </div>
       <div class="chg-group">
         <h3><span class="cbadge" style="background:#f59e0b"></span>Aktualizacja — 13.11.2026 (nowa wersja planu)</h3>
         <ul>
@@ -718,7 +725,7 @@
         <li><b>Wymiar zajęć: 210 godz.</b> — pełna realizacja planu (210 godz.).</li>
         <li>Terminy zjazdów zgodne z <b>Zarządzeniem Rektora nr 03/08/2026</b> z dnia 20.08.2026 r. (tok B).</li>
         <li><b>Sesja egzaminacyjna:</b> 6–7.02.2027 r.</li>
-        <li><b>Egzamin — Pedagogika korekcyjna (wykład):</b> 6.02.2027 (sobota), godz. 8.00–9.30, w formule zdalnej.</li>
+        <li><b>Test — Pedagogika korekcyjna (wykład):</b> 30.01.2027 — 20 pytań testowych przez MS Teams (link, bez logowania), czas 1.5 h.</li>
       </ul>
     </div>
     <div class="note">
@@ -849,9 +856,9 @@ const CLASSES = {
     { slot: 4, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "dr G. Kmiecik", cls: "s-diagnoza", zj: [6] },
     { slot: 4, title: "Metodyka pracy opiekuńczo-wychowawczej", full: "Metodyka pracy opiekuńczo-wychowawczej z dzieckiem i rodziną", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "ZzO", lect: "dr G. Kmiecik", cls: "s-metodyka", zj: [3,7] },
     { slot: 5, title: "Prawne i systemowe podstawy terapii", full: "Prawne i systemowe podstawy terapii pedagogicznej", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr P. Kulik", cls: "s-prawne", zj: [2,3] },
-    { slot: 5, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — egzamin: 6.02.2027, 8.00–9.30, zdalnie", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "dr hab. M. Dycht", cls: "s-pedkorekcyjna", zj: [4,5,7,8,9] },
+    { slot: 5, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — zaliczenie: test 30.01.2027 (MS Teams, bez logowania)", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "dr hab. M. Dycht", cls: "s-pedkorekcyjna", zj: [4,5,7,8,9] },
     { slot: 5, title: "Zaawansowana diagnoza trudności", full: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju", form: "wykład", hrs: "10 godz. · 1 ECTS", ects: "E", lect: "dr G. Kmiecik", cls: "s-diagnoza", zj: [6] },
-    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — egzamin: 6.02.2027, 8.00–9.30, zdalnie", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "dr hab. M. Dycht", cls: "s-pedkorekcyjna", zj: [4,5,7,8] },
+    { slot: 6, title: "Pedagogika korekcyjna", full: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — zaliczenie: test 30.01.2027 (MS Teams, bez logowania)", form: "wykład", hrs: "18 godz. · 2 ECTS", ects: "E", lect: "dr hab. M. Dycht", cls: "s-pedkorekcyjna", zj: [4,5,7,8] },
     { slot: 6, title: "Socjologia edukacji — Konw. I", full: "Socjologia edukacji — Konwersatorium I", form: "konwersatorium", hrs: "18 godz. · 2 ECTS", ects: "ZzO", lect: "dr hab. I. Białecki", cls: "s-socjologia", zj: [6,9] },
     { slot: 6, title: "Seminarium dyplomowe", full: "Seminarium dyplomowe", note: "jedno spotkanie z promotorem; pozostałe terminy do uzgodnienia z promotorem", form: "konwersatorium", hrs: "18 godz. · 4 ECTS", ects: "E", lect: "dr hab. M. Gejdos", cls: "s-seminarium", zj: [3], star: true },
 
@@ -896,8 +903,8 @@ const SUBJECTS = [
   { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — wykład", form: "wykład", hrs: "10 godz.", ects: "1 ECTS · E", lect: "dr G. Kmiecik", cls: "s-diagnoza", zal: "tba" },
   { name: "Zaawansowana diagnoza trudności w uczeniu się i rozwoju — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr M. Ochnio", cls: "s-diagnoza", zal: "praca", zalText: "Karty pracy",
     zalDet: `Zaliczenie na podstawie pracy w grupach na kartach pracy podczas ćwiczeń.` },
-  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · E", lect: "dr hab. M. Dycht", cls: "s-pedkorekcyjna", zal: "egzamin", zalText: "Egzamin",
-    zalDet: `<b>Termin:</b> 6.02.2027 (sobota), godz. 8.00–9.30 · <b>forma:</b> zdalna` },
+  { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — wykład", form: "wykład", hrs: "18 godz.", ects: "2 ECTS · E", lect: "dr hab. M. Dycht", cls: "s-pedkorekcyjna", zal: "test", zalText: "Test",
+    zalDet: `<b>Termin:</b> 30.01.2027 · <b>forma:</b> test — 20 pytań testowych przez MS Teams (link, bez logowania) · <b>czas:</b> 1.5 h` },
   { name: "Pedagogika korekcyjna i zaawansowana praca z uczniem ze specjalnymi potrzebami — ćwiczenia", form: "ćwiczenia", hrs: "18 godz.", ects: "2 ECTS · ZzO", lect: "mgr D. Dziaduś", cls: "s-pedkorekcyjna", zal: "tba" },
   { name: "Lektorat", form: "lektorat", hrs: "18 godz.", ects: "2 ECTS · E", lect: "mgr J. Karaszewska", cls: "s-lektorat", zal: "egzamin", zalText: "Egzamin",
     zalNote: "Marek — zaliczone",
